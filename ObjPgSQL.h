@@ -1,0 +1,6 @@
+#import "PGConnection.h"
+#import "PGResult.h"
+#import "PGResultRow.h"
+#import "exceptions/PGCommandFailedException.h"
+#import "exceptions/PGConnectionFailedException.h"
+#import "exceptions/PGException.h"

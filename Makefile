@@ -8,7 +8,9 @@ SRCS = PGConnection.m				\
        exceptions/PGCommandFailedException.m	\
        exceptions/PGConnectionFailedException.m	\
        exceptions/PGException.m
-HEADERS = ${SRCS:.m=.h}
+
+HEADERS = ${SRCS:.m=.h}	\
+	  ObjPgSQL.h
 
 CPPFLAGS += -Wall -Iexceptions -I.
 LIBS += -lpq
