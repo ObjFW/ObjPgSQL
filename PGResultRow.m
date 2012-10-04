@@ -46,7 +46,13 @@
 
 - (size_t)count
 {
-	return PQnfields(res);
+	size_t i, count, fields = PQnfields(res);
+
+	for (i = count = 0; i < fields; i++)
+		if (!PQgetisnull(res, row, i))
+			count++;
+
+	return count;
 }
 
 - (id)objectForKey: (id)key
@@ -57,6 +63,9 @@
 		col = [key intValue];
 	else
 		col = PQfnumber(res, [key UTF8String]);
+
+	if (PQgetisnull(res, row, col))
+		return nil;
 
 	return [OFString stringWithUTF8String: PQgetvalue(res, row, col)];
 }
@@ -102,6 +111,12 @@
 	if (pos >= count)
 		return nil;
 
+	while (pos < count && PQgetisnull(res, row, pos))
+		pos++;
+
+	if (pos >= count)
+		return nil;
+
 	return [OFString stringWithUTF8String: PQfname(res, pos++)];
 }
 @end
@@ -109,6 +124,12 @@
 @implementation PGResultRowObjectEnumerator
 - (id)nextObject
 {
+	if (pos >= count)
+		return nil;
+
+	while (pos < count && PQgetisnull(res, row, pos))
+		pos++;
+
 	if (pos >= count)
 		return nil;
 

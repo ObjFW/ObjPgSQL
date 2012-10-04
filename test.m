@@ -31,9 +31,9 @@ OF_APPLICATION_DELEGATE(Test)
 	[connection executeCommand: @"INSERT INTO test (id, name, content) "
 				    @"VALUES($1, $2, $3)"
 			parameters: @[@"1", @"foo", @"Hallo Welt!"]];
-	[connection executeCommand: @"INSERT INTO test (id, name, content) "
-				    @"VALUES($1, $2, $3)"
-			parameters: @[@"2", @"bla", @"Blup!!"]];
+	[connection executeCommand: @"INSERT INTO test (id, content) "
+				    @"VALUES($1, $2)"
+			parameters: @[@"2", @"Blup!!"]];
 
 	result = [connection executeCommand: @"SELECT * FROM test"];
 	of_log(@"%@", result);
