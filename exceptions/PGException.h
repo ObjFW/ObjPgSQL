@@ -1,6 +1,6 @@
 #import <ObjFW/ObjFW.h>
 
-#import "../PGConnection.h"
+#import "PGConnection.h"
 
 @interface PGException: OFException
 {

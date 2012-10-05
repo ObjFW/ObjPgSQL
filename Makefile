@@ -48,10 +48,10 @@ clean:
 	rm -fr build
 
 install:
-	mkdir -p ${destdir}${prefix}/include/ObjPgSQL/exceptions
+	mkdir -p ${destdir}${prefix}/include/ObjPgSQL
 	for i in ${HEADERS}; do \
 		${INSTALL} -m 644 $$i \
-			${destdir}${prefix}/include/ObjPgSQL/$$i; \
+			${destdir}${prefix}/include/ObjPgSQL/$$(basename $$i); \
 	done
 	mkdir -p ${destdir}${prefix}/lib
 	export LIB_MAJOR=${LIB_MAJOR}; \
