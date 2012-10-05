@@ -20,6 +20,6 @@
 - (void)reset;
 - (PGResult*)executeCommand: (OFString*)command;
 - (PGResult*)executeCommand: (OFString*)command
-		 parameters: (OFArray*)parameters;
+		 parameters: (id)firstParameter, ...;
 - (PGconn*)PG_connection;
 @end

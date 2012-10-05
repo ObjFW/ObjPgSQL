@@ -30,14 +30,17 @@ OF_APPLICATION_DELEGATE(Test)
 				    @")"];
 	[connection executeCommand: @"INSERT INTO test (id, name, content) "
 				    @"VALUES($1, $2, $3)"
-			parameters: @[@"1", @"foo", @"Hallo Welt!"]];
+			parameters: @"1", @"foo", @"Hallo Welt!", nil];
 	[connection executeCommand: @"INSERT INTO test (id, content) "
 				    @"VALUES($1, $2)"
-			parameters: @[@"2", @"Blup!!"]];
+			parameters: @"2", @"Blup!!", nil];
 
 	result = [connection executeCommand: @"SELECT * FROM test"];
 	of_log(@"%@", result);
 	of_log(@"JSON: %@", [result JSONRepresentation]);
+
+	result = [connection executeCommand: @"SELECT COUNT(*) FROM test"];
+	of_log(@"%@", result);
 
 	[OFApplication terminate];
 }

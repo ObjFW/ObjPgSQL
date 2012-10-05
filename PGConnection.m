@@ -78,28 +78,33 @@
 }
 
 - (PGResult*)executeCommand: (OFString*)command
-		 parameters: (OFArray*)parameters_
+		 parameters: (id)parameter, ...
 {
 	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
 	PGresult *result;
 	const char **values;
+	va_list args, args2;
+	size_t argsCount;
+
+	va_start(args, parameter);
+	va_copy(args2, args);
+
+	for (argsCount = 1; va_arg(args2, id) != nil; argsCount++);
 
 	values = [self allocMemoryWithSize: sizeof(*values)
-				     count: [parameters_ count]];
+				     count: argsCount];
 	@try {
-		OFEnumerator *enumerator = [parameters_ objectEnumerator];
 		size_t i = 0;
-		id parameter;
 
-		while ((parameter = [enumerator nextObject]) != nil) {
+		do {
 			if ([parameter isKindOfClass: [OFNull class]])
 				values[i++] = NULL;
 			else
 				values[i++] = [parameter UTF8String];
-		}
+		} while ((parameter = va_arg(args, id)) != nil);
 
 		result = PQexecParams(conn, [command UTF8String],
-		    [parameters_ count], NULL, values, NULL, NULL, 0);
+		    argsCount, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
 	}
