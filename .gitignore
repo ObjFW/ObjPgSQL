@@ -1,6 +1,8 @@
-build
-test
 *.dll
 *.dylib
 *.so
 *~
+build
+test
+ObjPgSQL.xcodeproj/project.xcworkspace
+ObjPgSQL.xcodeproj/xcuserdata

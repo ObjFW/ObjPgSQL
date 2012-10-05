@@ -8,11 +8,11 @@
 {
 	PGResult *result;
 	PGresult *res;
-	size_t row;
+	int row;
 }
 
 + rowWithResult: (PGResult*)result
-	    row: (size_t)row;
+	    row: (int)row;
 - initWithResult: (PGResult*)result
-	     row: (size_t)row;
+	     row: (int)row;
 @end

@@ -44,7 +44,7 @@ test:
 		test.m
 
 clean:
-	rm -f libobjpgsql.* exceptions/*~ *~
+	rm -f test libobjpgsql.* exceptions/*~ *~
 	rm -fr build
 
 install:

@@ -84,7 +84,7 @@
 	PGresult *result;
 	const char **values;
 	va_list args, args2;
-	size_t argsCount;
+	int argsCount;
 
 	va_start(args, parameter);
 	va_copy(args2, args);

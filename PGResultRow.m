@@ -4,11 +4,11 @@
 {
 	PGResult *result;
 	PGresult *res;
-	size_t row, pos, count;
+	int row, pos, count;
 }
 
 - initWithResult: (PGResult*)result
-	     row: (size_t)row;
+	     row: (int)row;
 @end
 
 @interface PGResultRowKeyEnumerator: PGResultRowEnumerator
@@ -19,14 +19,14 @@
 
 @implementation PGResultRow
 + rowWithResult: (PGResult*)result
-	    row: (size_t)row
+	    row: (int)row
 {
 	return [[[self alloc] initWithResult: result
 					 row: row] autorelease];
 }
 
 - initWithResult: (PGResult*)result_
-	     row: (size_t)row_
+	     row: (int)row_
 {
 	self = [super init];
 
@@ -46,7 +46,7 @@
 
 - (size_t)count
 {
-	size_t i, count, fields = PQnfields(res);
+	int i, count, fields = PQnfields(res);
 
 	for (i = count = 0; i < fields; i++)
 		if (!PQgetisnull(res, row, i))
@@ -87,7 +87,7 @@
 
 @implementation PGResultRowEnumerator
 - initWithResult: (PGResult*)result_
-	     row: (size_t)row_
+	     row: (int)row_
 {
 	self = [super init];
 

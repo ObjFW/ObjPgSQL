@@ -36,7 +36,7 @@
 		    exceptionWithClass: [self class]];
 
 	return [PGResultRow rowWithResult: self
-				      row: index];
+				      row: (int)index];
 }
 
 - (PGresult*)PG_result
