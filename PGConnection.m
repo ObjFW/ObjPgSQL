@@ -126,6 +126,85 @@
 	return nil;
 }
 
+- (void)insertRow: (OFDictionary*)row
+	intoTable: (OFString*)table
+{
+	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
+	OFMutableString *command;
+	OFEnumerator *enumerator;
+	const char **values;
+	PGresult *result;
+	OFString *key, *value;
+	size_t i, count;
+
+	command = [OFMutableString stringWithString: @"INSERT INTO "];
+	[command appendString: table];
+	[command appendString: @" ("];
+
+	count = [row count];
+
+	i = 0;
+	enumerator = [row keyEnumerator];
+	while ((key = [enumerator nextObject]) != nil) {
+		if (i > 0)
+			[command appendString: @", "];
+
+		[command appendString: key];
+
+		i++;
+	}
+
+	[command appendString: @") VALUES ("];
+
+	values = [self allocMemoryWithSize: sizeof(*values)
+				     count: count];
+	@try {
+		i = 0;
+		enumerator = [row objectEnumerator];
+		while ((value = [enumerator nextObject]) != nil) {
+			if (i > 0)
+				[command appendString: @", "];
+
+			values[i] = [value UTF8String];
+
+			[command appendFormat: @"$%zd", ++i];
+		}
+
+		[command appendString: @")"];
+
+		result = PQexecParams(conn, [command UTF8String], (int)count,
+		    NULL, values, NULL, NULL, 0);
+	} @finally {
+		[self freeMemory: values];
+	}
+
+	[pool release];
+
+	if (PQresultStatus(result) != PGRES_COMMAND_OK) {
+		PQclear(result);
+		@throw [PGCommandFailedException
+		    exceptionWithClass: [self class]
+			    connection: self
+			       command: command];
+	}
+
+	PQclear(result);
+}
+
+- (void)insertRows: (OFArray*)rows
+	 intoTable: (OFString*)table
+{
+	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
+	OFEnumerator *enumerator = [rows objectEnumerator];
+	OFDictionary *row;
+
+	while ((row = [enumerator nextObject]) != nil)
+		[self insertRow: row
+		      intoTable: table];
+
+	[pool release];
+}
+
 - (PGconn*)PG_connection
 {
 	return conn;

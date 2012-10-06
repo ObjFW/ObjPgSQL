@@ -34,6 +34,8 @@ OF_APPLICATION_DELEGATE(Test)
 	[connection executeCommand: @"INSERT INTO test (id, content) "
 				    @"VALUES($1, $2)"
 			parameters: @"2", @"Blup!!", nil];
+	[connection insertRow: @{ @"content": @"Hallo!", @"name": @"foo" }
+		    intoTable: @"test"];
 
 	result = [connection executeCommand: @"SELECT * FROM test"];
 	of_log(@"%@", result);

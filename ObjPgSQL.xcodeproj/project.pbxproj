@@ -21,7 +21,7 @@
 		4BCC7456161F82820074ED30 /* PGConnectionFailedException.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCC7450161F82820074ED30 /* PGConnectionFailedException.m */; };
 		4BCC7457161F82820074ED30 /* PGException.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BCC7451161F82820074ED30 /* PGException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BCC7458161F82820074ED30 /* PGException.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCC7452161F82820074ED30 /* PGException.m */; };
-		4BCC7460161F842F0074ED30 /* libpq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BCC745F161F842F0074ED30 /* libpq.dylib */; };
+		4BCC74B0162036A70074ED30 /* libpq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BCC74AF162036A70074ED30 /* libpq.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +40,8 @@
 		4BCC7450161F82820074ED30 /* PGConnectionFailedException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGConnectionFailedException.m; path = exceptions/PGConnectionFailedException.m; sourceTree = SOURCE_ROOT; };
 		4BCC7451161F82820074ED30 /* PGException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGException.h; path = exceptions/PGException.h; sourceTree = SOURCE_ROOT; };
 		4BCC7452161F82820074ED30 /* PGException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGException.m; path = exceptions/PGException.m; sourceTree = SOURCE_ROOT; };
-		4BCC745F161F842F0074ED30 /* libpq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = usr/lib/libpq.dylib; sourceTree = SDKROOT; };
 		4BCC7464161F85DF0074ED30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		4BCC74AF162036A70074ED30 /* libpq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = /usr/local/lib/libpq.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,8 +49,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BCC74B0162036A70074ED30 /* libpq.dylib in Frameworks */,
 				4BCC743D161F82000074ED30 /* ObjFW.framework in Frameworks */,
-				4BCC7460161F842F0074ED30 /* libpq.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,7 +115,7 @@
 		4BCC7461161F843F0074ED30 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4BCC745F161F842F0074ED30 /* libpq.dylib */,
+				4BCC74AF162036A70074ED30 /* libpq.dylib */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -281,6 +281,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -295,6 +299,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};

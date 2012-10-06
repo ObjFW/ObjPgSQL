@@ -22,4 +22,8 @@
 - (PGResult*)executeCommand: (OFString*)command
 		 parameters: (id)firstParameter, ...;
 - (PGconn*)PG_connection;
+- (void)insertRow: (OFDictionary*)row
+	intoTable: (OFString*)table;
+- (void)insertRows: (OFArray*)rows
+	 intoTable: (OFString*)table;
 @end
