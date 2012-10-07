@@ -99,7 +99,20 @@
 		do {
 			if ([parameter isKindOfClass: [OFNull class]])
 				values[i++] = NULL;
-			else
+			else if ([parameter isKindOfClass: [OFNumber class]]) {
+				switch ([parameter type]) {
+				case OF_NUMBER_BOOL:
+					if ([parameter boolValue])
+						values[i++] = "t";
+					else
+						values[i++] = "f";
+					break;
+				default:
+					values[i++] = [[parameter description]
+					    UTF8String];
+					break;
+				}
+			} else
 				values[i++] = [parameter UTF8String];
 		} while ((parameter = va_arg(args, id)) != nil);
 

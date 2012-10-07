@@ -26,14 +26,15 @@ OF_APPLICATION_DELEGATE(Test)
 	[connection executeCommand: @"CREATE TABLE test ("
 				    @"    id integer,"
 				    @"    name varchar(255),"
-				    @"    content text"
+				    @"    content text,"
+				    @"    success boolean"
 				    @")"];
 	[connection executeCommand: @"INSERT INTO test (id, name, content) "
-				    @"VALUES($1, $2, $3)"
-			parameters: @"1", @"foo", @"Hallo Welt!", nil];
-	[connection executeCommand: @"INSERT INTO test (id, content) "
-				    @"VALUES($1, $2)"
-			parameters: @"2", @"Blup!!", nil];
+				    @"VALUES ($1, $2, $3)"
+			parameters: @1, @"foo", @"Hallo Welt!", nil];
+	[connection executeCommand: @"INSERT INTO test (id, content, success) "
+				    @"VALUES ($1, $2, $3)"
+			parameters: @2, @2, @YES];
 	[connection insertRow: @{ @"content": @"Hallo!", @"name": @"foo" }
 		    intoTable: @"test"];
 

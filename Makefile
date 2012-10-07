@@ -34,6 +34,7 @@ all:
 		${LIBS}			\
 		${SRCS}
 
+.PHONY: test
 test:
 	@objfw-compile			\
 		-o test			\
