@@ -105,8 +105,8 @@
 		size_t i = 0;
 
 		do {
-			if ([parameter isKindOfClass: [OFNull class]])
-				values[i++] = NULL;
+			if ([parameter isKindOfClass: [OFString class]])
+				values[i++] = [parameter UTF8String];
 			else if ([parameter isKindOfClass: [OFNumber class]]) {
 				switch ([parameter type]) {
 				case OF_NUMBER_BOOL:
@@ -120,8 +120,11 @@
 					    UTF8String];
 					break;
 				}
-			} else
-				values[i++] = [parameter UTF8String];
+			} else if ([parameter isKindOfClass: [OFNull class]])
+				values[i++] = NULL;
+			else
+				values[i++] = [[parameter description]
+				    UTF8String];
 		} while ((parameter = va_arg(args, id)) != nil);
 
 		result = PQexecParams(conn, [command UTF8String],
