@@ -70,11 +70,19 @@
 			       command: command];
 	}
 
-	if (PQresultStatus(result) == PGRES_TUPLES_OK)
+	switch (PQresultStatus(result)) {
+	case PGRES_TUPLES_OK:
 		return [PGResult PG_resultWithResult: result];
-
-	PQclear(result);
-	return nil;
+	case PGRES_COMMAND_OK:
+		PQclear(result);
+		return nil;
+	default:
+		PQclear(result);
+		@throw [PGCommandFailedException
+		    exceptionWithClass: [self class]
+			    connection: self
+			       command: command];
+	}
 }
 
 - (PGResult*)executeCommand: (OFConstantString*)command
@@ -124,19 +132,19 @@
 
 	[pool release];
 
-	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
+	switch (PQresultStatus(result)) {
+	case PGRES_TUPLES_OK:
+		return [PGResult PG_resultWithResult: result];
+	case PGRES_COMMAND_OK:
+		PQclear(result);
+		return nil;
+	default:
 		PQclear(result);
 		@throw [PGCommandFailedException
 		    exceptionWithClass: [self class]
 			    connection: self
 			       command: command];
 	}
-
-	if (PQresultStatus(result) == PGRES_TUPLES_OK)
-		return [PGResult PG_resultWithResult: result];
-
-	PQclear(result);
-	return nil;
 }
 
 - (void)insertRow: (OFDictionary*)row
