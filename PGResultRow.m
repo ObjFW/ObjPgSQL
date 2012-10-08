@@ -4,17 +4,21 @@ static id
 convert_type(PGresult *res, int col, OFString *str)
 {
 	switch (PQftype(res, col)) {
-	case 16: /* BOOLOID */
+	case 16:  /* BOOLOID */
 		if ([str isEqual: @"t"])
 			return [OFNumber numberWithBool: YES];
 		else
 			return [OFNumber numberWithBool: NO];
-	case 21: /* INT2OID */
+	case 21:  /* INT2OID */
 		return [OFNumber numberWithInt16: (int16_t)[str decimalValue]];
-	case 23: /* INT4OID */
+	case 23:  /* INT4OID */
 		return [OFNumber numberWithInt32: (int32_t)[str decimalValue]];
-	case 20: /* INT8OID */
+	case 20:  /* INT8OID */
 		return [OFNumber numberWithInt64: (int64_t)[str decimalValue]];
+	case 700: /* FLOAT4OID */
+		return [OFNumber numberWithFloat: [str floatValue]];
+	case 701: /* FLOAT8OID */
+		return [OFNumber numberWithDouble: [str doubleValue]];
 	}
 
 	return str;
