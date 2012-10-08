@@ -18,8 +18,8 @@
 - (OFDictionary*)parameters;
 - (void)connect;
 - (void)reset;
-- (PGResult*)executeCommand: (OFString*)command;
-- (PGResult*)executeCommand: (OFString*)command
+- (PGResult*)executeCommand: (OFConstantString*)command;
+- (PGResult*)executeCommand: (OFConstantString*)command
 		 parameters: (id)firstParameter, ...;
 - (PGconn*)PG_connection;
 - (void)insertRow: (OFDictionary*)row

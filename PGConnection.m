@@ -58,7 +58,7 @@
 	PQreset(conn);
 }
 
-- (PGResult*)executeCommand: (OFString*)command
+- (PGResult*)executeCommand: (OFConstantString*)command
 {
 	PGresult *result = PQexec(conn, [command UTF8String]);
 
@@ -77,7 +77,7 @@
 	return nil;
 }
 
-- (PGResult*)executeCommand: (OFString*)command
+- (PGResult*)executeCommand: (OFConstantString*)command
 		 parameters: (id)parameter, ...
 {
 	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
