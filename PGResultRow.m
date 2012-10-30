@@ -108,6 +108,38 @@ convert_type(PGresult *res, int col, OFString *str)
 	    initWithResult: result
 		       row: row] autorelease];
 }
+
+- (int)countByEnumeratingWithState: (of_fast_enumeration_state_t*)state
+			   objects: (id*)objects
+			     count: (int)count
+{
+	int i, j;
+
+	if (state->extra[0] == 0) {
+		state->extra[0] = 1;
+		state->extra[1] = PQnfields(res);
+	}
+
+	if (count > SIZE_MAX - state->state)
+		@throw [OFOutOfRangeException exceptionWithClass: [self class]];
+
+	if (state->state + count > state->extra[1])
+		count = state->extra[1] - state->state;
+
+	for (i = j = 0; i < count; i++) {
+		if (PQgetisnull(res, row, state->state + i))
+			continue;
+
+		objects[j++] = [OFString stringWithUTF8String:
+		    PQfname(res, state->state + i)];
+	}
+
+	state->state += count;
+	state->itemsPtr = objects;
+	state->mutationsPtr = (unsigned long*)self;
+
+	return j;
+}
 @end
 
 @implementation PGResultRowEnumerator

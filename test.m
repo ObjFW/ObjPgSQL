@@ -42,6 +42,10 @@ OF_APPLICATION_DELEGATE(Test)
 	of_log(@"%@", result);
 	of_log(@"JSON: %@", [result JSONRepresentation]);
 
+	for (id row in result)
+		for (id col in row)
+			of_log(@"%@", col);
+
 	result = [connection executeCommand: @"SELECT COUNT(*) FROM test"];
 	of_log(@"%@", result);
 
