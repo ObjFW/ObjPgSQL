@@ -34,7 +34,7 @@ OF_APPLICATION_DELEGATE(Test)
 			parameters: @1, @"foo", @"Hallo Welt!", nil];
 	[connection executeCommand: @"INSERT INTO test (id, content, success) "
 				    @"VALUES ($1, $2, $3)"
-			parameters: @2, @2, @YES];
+			parameters: @2, @2, @YES, nil];
 	[connection insertRow: @{ @"content": @"Hallo!", @"name": @"foo" }
 		    intoTable: @"test"];
 
