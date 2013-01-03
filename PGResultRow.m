@@ -156,6 +156,13 @@ convert_type(PGresult *res, int col, OFString *str)
 	return self;
 }
 
+- (void)dealloc
+{
+	[result release];
+
+	[super dealloc];
+}
+
 - (void)reset
 {
 	pos = 0;
