@@ -8,37 +8,32 @@
 				 connection: connection] autorelease];
 }
 
-- initWithClass: (Class)class_
-     connection: (PGConnection*)connection_
+- initWithClass: (Class)class
+     connection: (PGConnection*)connection
 {
-	self = [super initWithClass: class_];
+	self = [super initWithClass: class];
 
-	connection = [connection_ retain];
+	_connection = [connection retain];
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[connection release];
+	[_connection release];
 
 	[super dealloc];
 }
 
 - (OFString*)description
 {
-	if (description != nil)
-		return description;
-
-	description = [[OFString alloc] initWithFormat:
-	    @"A PostgreSQL operation in class %@ failed: %s", inClass,
-	    PQerrorMessage([connection PG_connection])];
-
-	return description;
+	return [OFString stringWithFormat:
+	    @"A PostgreSQL operation in class %@ failed: %s", [self inClass],
+	    PQerrorMessage([_connection PG_connection])];
 }
 
 - (PGConnection*)connection
 {
-	OF_GETTER(connection, NO)
+	OF_GETTER(_connection, NO)
 }
 @end

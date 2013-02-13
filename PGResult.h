@@ -4,7 +4,7 @@
 
 @interface PGResult: OFArray
 {
-	PGresult *result;
+	PGresult *_result;
 }
 
 + PG_resultWithResult: (PGresult*)result;

@@ -2,7 +2,7 @@
 
 @interface PGCommandFailedException: PGException
 {
-	OFString *command;
+	OFString *_command;
 }
 
 #ifdef OF_HAVE_PROPERTIES

@@ -6,9 +6,9 @@
 
 @interface PGResultRow: OFDictionary
 {
-	PGResult *result;
-	PGresult *res;
-	int row;
+	PGResult *_result;
+	PGresult *_res;
+	int _row;
 }
 
 + rowWithResult: (PGResult*)result

@@ -6,46 +6,46 @@
 @implementation PGConnection
 - (void)dealloc
 {
-	[parameters release];
+	[_parameters release];
 
-	if (conn != NULL)
-		PQfinish(conn);
+	if (_connnection != NULL)
+		PQfinish(_connnection);
 
 	[super dealloc];
 }
 
-- (void)setParameters: (OFDictionary*)parameters_
+- (void)setParameters: (OFDictionary*)parameters
 {
-	OF_SETTER(parameters, parameters_, YES, YES)
+	OF_SETTER(_parameters, parameters, YES, YES)
 }
 
 - (OFDictionary*)parameters
 {
-	OF_GETTER(parameters, YES)
+	OF_GETTER(_parameters, YES)
 }
 
 - (void)connect
 {
 	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
-	OFEnumerator *keyEnumerator = [parameters keyEnumerator];
-	OFEnumerator *objectEnumerator = [parameters objectEnumerator];
-	OFMutableString *conninfo = nil;
+	OFEnumerator *keyEnumerator = [_parameters keyEnumerator];
+	OFEnumerator *objectEnumerator = [_parameters objectEnumerator];
+	OFMutableString *connectionInfo = nil;
 	OFString *key, *object;
 
 	while ((key = [keyEnumerator nextObject]) != nil &&
 	    (object = [objectEnumerator nextObject]) != nil) {
-		if (conninfo != nil)
-			[conninfo appendFormat: @" %@=%@", key, object];
+		if (connectionInfo != nil)
+			[connectionInfo appendFormat: @" %@=%@", key, object];
 		else
-			conninfo = [OFMutableString stringWithFormat:
+			connectionInfo = [OFMutableString stringWithFormat:
 			    @"%@=%@", key, object];
 	}
 
-	if ((conn = PQconnectdb([conninfo UTF8String])) == NULL)
+	if ((_connnection = PQconnectdb([connectionInfo UTF8String])) == NULL)
 		@throw [OFOutOfMemoryException
 		    exceptionWithClass: [self class]];
 
-	if (PQstatus(conn) == CONNECTION_BAD)
+	if (PQstatus(_connnection) == CONNECTION_BAD)
 		@throw [PGConnectionFailedException
 		    exceptionWithClass: [self class]
 			    connection: self];
@@ -55,12 +55,12 @@
 
 - (void)reset
 {
-	PQreset(conn);
+	PQreset(_connnection);
 }
 
 - (PGResult*)executeCommand: (OFConstantString*)command
 {
-	PGresult *result = PQexec(conn, [command UTF8String]);
+	PGresult *result = PQexec(_connnection, [command UTF8String]);
 
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
@@ -127,7 +127,7 @@
 				    UTF8String];
 		} while ((parameter = va_arg(args, id)) != nil);
 
-		result = PQexecParams(conn, [command UTF8String],
+		result = PQexecParams(_connnection, [command UTF8String],
 		    argsCount, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
@@ -196,8 +196,8 @@
 
 		[command appendString: @")"];
 
-		result = PQexecParams(conn, [command UTF8String], (int)count,
-		    NULL, values, NULL, NULL, 0);
+		result = PQexecParams(_connnection, [command UTF8String],
+		    (int)count, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
 	}
@@ -231,6 +231,6 @@
 
 - (PGconn*)PG_connection
 {
-	return conn;
+	return _connnection;
 }
 @end

@@ -7,31 +7,31 @@
 	return [[[self alloc] PG_initWithResult: result] autorelease];
 }
 
-- PG_initWithResult: (PGresult*)result_
+- PG_initWithResult: (PGresult*)result
 {
 	self = [super init];
 
-	result = result_;
+	_result = result;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	if (result != NULL)
-		PQclear(result);
+	if (_result != NULL)
+		PQclear(_result);
 
 	[super dealloc];
 }
 
 - (size_t)count
 {
-	return PQntuples(result);
+	return PQntuples(_result);
 }
 
 - (id)objectAtIndex: (size_t)index
 {
-	if (index > PQntuples(result))
+	if (index > PQntuples(_result))
 		@throw [OFOutOfRangeException
 		    exceptionWithClass: [self class]];
 
@@ -41,6 +41,6 @@
 
 - (PGresult*)PG_result
 {
-	return result;
+	return _result;
 }
 @end

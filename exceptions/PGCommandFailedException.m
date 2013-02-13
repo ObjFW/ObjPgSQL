@@ -10,15 +10,15 @@
 				    command: command] autorelease];
 }
 
-- initWithClass: (Class)class_
-     connection: (PGConnection*)connection_
-	command: (OFString*)command_
+- initWithClass: (Class)class
+     connection: (PGConnection*)connection
+	command: (OFString*)command
 {
-	self = [super initWithClass: class_
-			 connection: connection_];
+	self = [super initWithClass: class
+			 connection: connection];
 
 	@try {
-		command = [command_ copy];
+		_command = [command copy];
 	} @catch (id e) {
 		[self release];
 		@throw e;
@@ -29,25 +29,21 @@
 
 - (void)dealloc
 {
-	[command release];
+	[_command release];
 
 	[super dealloc];
 }
 
 - (OFString*)description
 {
-	if (description != nil)
-		return description;
-
-	description = [[OFString alloc] initWithFormat:
+	return [OFString stringWithFormat:
 	    @"A PostgreSQL command in class %@ failed: %s\nCommand: %@",
-	    inClass, PQerrorMessage([connection PG_connection]), command];
-
-	return description;
+	    [self inClass], PQerrorMessage([_connection PG_connection]),
+	    _command];
 }
 
 - (OFString*)command
 {
-	OF_GETTER(command, NO)
+	OF_GETTER(_command, NO)
 }
 @end

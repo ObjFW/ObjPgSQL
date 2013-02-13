@@ -6,8 +6,8 @@
 
 @interface PGConnection: OFObject
 {
-	PGconn *conn;
-	OFDictionary *parameters;
+	PGconn *_connnection;
+	OFDictionary *_parameters;
 }
 
 #ifdef OF_HAVE_PROPERTIES

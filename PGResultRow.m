@@ -1,34 +1,37 @@
 #import "PGResultRow.h"
 
 static id
-convert_type(PGresult *res, int col, OFString *str)
+convert_type(PGresult *res, int column, OFString *string)
 {
-	switch (PQftype(res, col)) {
+	switch (PQftype(res, column)) {
 	case 16:  /* BOOLOID */
-		if ([str isEqual: @"t"])
+		if ([string isEqual: @"t"])
 			return [OFNumber numberWithBool: YES];
 		else
 			return [OFNumber numberWithBool: NO];
 	case 21:  /* INT2OID */
-		return [OFNumber numberWithInt16: (int16_t)[str decimalValue]];
+		return [OFNumber numberWithInt16:
+		    (int16_t)[string decimalValue]];
 	case 23:  /* INT4OID */
-		return [OFNumber numberWithInt32: (int32_t)[str decimalValue]];
+		return [OFNumber numberWithInt32:
+		    (int32_t)[string decimalValue]];
 	case 20:  /* INT8OID */
-		return [OFNumber numberWithInt64: (int64_t)[str decimalValue]];
+		return [OFNumber numberWithInt64:
+		    (int64_t)[string decimalValue]];
 	case 700: /* FLOAT4OID */
-		return [OFNumber numberWithFloat: [str floatValue]];
+		return [OFNumber numberWithFloat: [string floatValue]];
 	case 701: /* FLOAT8OID */
-		return [OFNumber numberWithDouble: [str doubleValue]];
+		return [OFNumber numberWithDouble: [string doubleValue]];
 	}
 
-	return str;
+	return string;
 }
 
 @interface PGResultRowEnumerator: OFEnumerator
 {
-	PGResult *result;
-	PGresult *res;
-	int row, pos, count;
+	PGResult *_result;
+	PGresult *_res;
+	int _row, _pos, _count;
 }
 
 - initWithResult: (PGResult*)result
@@ -49,31 +52,31 @@ convert_type(PGresult *res, int col, OFString *str)
 					 row: row] autorelease];
 }
 
-- initWithResult: (PGResult*)result_
-	     row: (int)row_
+- initWithResult: (PGResult*)result
+	     row: (int)row
 {
 	self = [super init];
 
-	result = [result_ retain];
-	res = [result PG_result];
-	row = row_;
+	_result = [result retain];
+	_res = [result PG_result];
+	_row = row;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[result release];
+	[_result release];
 
 	[super dealloc];
 }
 
 - (size_t)count
 {
-	int i, count, fields = PQnfields(res);
+	int i, count, fields = PQnfields(_res);
 
 	for (i = count = 0; i < fields; i++)
-		if (!PQgetisnull(res, row, i))
+		if (!PQgetisnull(_res, _row, i))
 			count++;
 
 	return count;
@@ -81,32 +84,32 @@ convert_type(PGresult *res, int col, OFString *str)
 
 - (id)objectForKey: (id)key
 {
-	int col;
+	int column;
 
 	if ([key isKindOfClass: [OFNumber class]])
-		col = [key intValue];
+		column = [key intValue];
 	else
-		col = PQfnumber(res, [key UTF8String]);
+		column = PQfnumber(_res, [key UTF8String]);
 
-	if (PQgetisnull(res, row, col))
+	if (PQgetisnull(_res, _row, column))
 		return nil;
 
-	return convert_type(res, col,
-	    [OFString stringWithUTF8String: PQgetvalue(res, row, col)]);
+	return convert_type(_res, column,
+	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, column)]);
 }
 
 - (OFEnumerator*)keyEnumerator
 {
 	return [[[PGResultRowKeyEnumerator alloc]
-	    initWithResult: result
-		       row: row] autorelease];
+	    initWithResult: _result
+		       row: _row] autorelease];
 }
 
 - (OFEnumerator*)objectEnumerator
 {
 	return [[[PGResultRowObjectEnumerator alloc]
-	    initWithResult: result
-		       row: row] autorelease];
+	    initWithResult: _result
+		       row: _row] autorelease];
 }
 
 - (int)countByEnumeratingWithState: (of_fast_enumeration_state_t*)state
@@ -117,7 +120,7 @@ convert_type(PGresult *res, int col, OFString *str)
 
 	if (state->extra[0] == 0) {
 		state->extra[0] = 1;
-		state->extra[1] = PQnfields(res);
+		state->extra[1] = PQnfields(_res);
 	}
 
 	if (count > SIZE_MAX - state->state)
@@ -127,11 +130,11 @@ convert_type(PGresult *res, int col, OFString *str)
 		count = state->extra[1] - state->state;
 
 	for (i = j = 0; i < count; i++) {
-		if (PQgetisnull(res, row, state->state + i))
+		if (PQgetisnull(_res, _row, state->state + i))
 			continue;
 
 		objects[j++] = [OFString stringWithUTF8String:
-		    PQfname(res, state->state + i)];
+		    PQfname(_res, state->state + i)];
 	}
 
 	state->state += count;
@@ -143,61 +146,61 @@ convert_type(PGresult *res, int col, OFString *str)
 @end
 
 @implementation PGResultRowEnumerator
-- initWithResult: (PGResult*)result_
-	     row: (int)row_
+- initWithResult: (PGResult*)result
+	     row: (int)row
 {
 	self = [super init];
 
-	result = [result_ retain];
-	res = [result PG_result];
-	row = row_;
-	count = PQnfields(res);
+	_result = [result retain];
+	_res = [result PG_result];
+	_row = row;
+	_count = PQnfields(_res);
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[result release];
+	[_result release];
 
 	[super dealloc];
 }
 
 - (void)reset
 {
-	pos = 0;
+	_pos = 0;
 }
 @end
 
 @implementation PGResultRowKeyEnumerator
 - (id)nextObject
 {
-	if (pos >= count)
+	if (_pos >= _count)
 		return nil;
 
-	while (pos < count && PQgetisnull(res, row, pos))
-		pos++;
+	while (_pos < _count && PQgetisnull(_res, _row, _pos))
+		_pos++;
 
-	if (pos >= count)
+	if (_pos >= _count)
 		return nil;
 
-	return [OFString stringWithUTF8String: PQfname(res, pos++)];
+	return [OFString stringWithUTF8String: PQfname(_res, _pos++)];
 }
 @end
 
 @implementation PGResultRowObjectEnumerator
 - (id)nextObject
 {
-	if (pos >= count)
+	if (_pos >= _count)
 		return nil;
 
-	while (pos < count && PQgetisnull(res, row, pos))
-		pos++;
+	while (_pos < _count && PQgetisnull(_res, _row, _pos))
+		_pos++;
 
-	if (pos >= count)
+	if (_pos >= _count)
 		return nil;
 
-	return convert_type(res, pos,
-	    [OFString stringWithUTF8String: PQgetvalue(res, row, pos++)]);
+	return convert_type(_res, _pos,
+	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, _pos++)]);
 }
 @end

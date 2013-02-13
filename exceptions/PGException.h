@@ -4,7 +4,7 @@
 
 @interface PGException: OFException
 {
-	PGConnection *connection;
+	PGConnection *_connection;
 }
 
 #ifdef OF_HAVE_PROPERTIES
