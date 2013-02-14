@@ -12,7 +12,8 @@ SRCS = PGConnection.m				\
 HEADERS = ${SRCS:.m=.h}	\
 	  ObjPgSQL.h
 
-CPPFLAGS += -Wall -Iexceptions -I.
+CPPFLAGS += -Iexceptions -I.
+OBJCFLAGS += -Werror
 LIBS += -lpq
 
 prefix ?= /usr/local
@@ -26,12 +27,13 @@ LIB_SUFFIX = `${OBJFW_CONFIG} --lib-suffix`
 LIB_FILE = ${LIB_PREFIX}${LIB}${LIB_SUFFIX}
 
 all:
-	@objfw-compile			\
-		--lib 0.0		\
-		-o objpgsql		\
-		--builddir build	\
-		${CPPFLAGS}		\
-		${LIBS}			\
+	@objfw-compile				\
+		--lib ${LIB_MAJOR}.${LIB_MINOR}	\
+		-o objpgsql			\
+		--builddir build		\
+		${CPPFLAGS}			\
+		${OBJCFLAGS}			\
+		${LIBS}				\
 		${SRCS}
 
 .PHONY: test
