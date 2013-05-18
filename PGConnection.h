@@ -18,6 +18,7 @@
 - (OFDictionary*)parameters;
 - (void)connect;
 - (void)reset;
+- (void)close;
 - (PGResult*)executeCommand: (OFConstantString*)command;
 - (PGResult*)executeCommand: (OFConstantString*)command
 		 parameters: (id)firstParameter, ... OF_SENTINEL;

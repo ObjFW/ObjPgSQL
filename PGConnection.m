@@ -8,8 +8,7 @@
 {
 	[_parameters release];
 
-	if (_connnection != NULL)
-		PQfinish(_connnection);
+	[self close];
 
 	[super dealloc];
 }
@@ -56,6 +55,14 @@
 - (void)reset
 {
 	PQreset(_connnection);
+}
+
+- (void)close
+{
+	if (_connnection != NULL)
+		PQfinish(_connnection);
+
+	_connnection = NULL;
 }
 
 - (PGResult*)executeCommand: (OFConstantString*)command
