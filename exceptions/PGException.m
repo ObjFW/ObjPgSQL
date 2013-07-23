@@ -1,19 +1,24 @@
 #import "PGException.h"
 
 @implementation PGException
-+ exceptionWithClass: (Class)class
-	  connection: (PGConnection*)connection
++ (instancetype)exceptionWithConnection: (PGConnection*)connection
 {
-	return [[[self alloc] initWithClass: class
-				 connection: connection] autorelease];
+	return [[[self alloc] initWithConnection: connection] autorelease];
 }
 
-- initWithClass: (Class)class
-     connection: (PGConnection*)connection
+- initWithConnection: (PGConnection*)connection
 {
-	self = [super initWithClass: class];
+	self = [super init];
 
-	_connection = [connection retain];
+	@try {
+		_connection = [connection retain];
+		_error = [[OFString alloc]
+		    initWithCString: PQerrorMessage([_connection PG_connection])
+			   encoding: OF_STRING_ENCODING_NATIVE];
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
 
 	return self;
 }
@@ -21,15 +26,15 @@
 - (void)dealloc
 {
 	[_connection release];
+	[_error release];
 
 	[super dealloc];
 }
 
 - (OFString*)description
 {
-	return [OFString stringWithFormat:
-	    @"A PostgreSQL operation in class %@ failed: %s", [self inClass],
-	    PQerrorMessage([_connection PG_connection])];
+	return [OFString stringWithFormat: @"A PostgreSQL operation failed: %@",
+					   _error];
 }
 
 - (PGConnection*)connection

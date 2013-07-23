@@ -124,7 +124,7 @@ convert_type(PGresult *res, int column, OFString *string)
 	}
 
 	if (count > SIZE_MAX - state->state)
-		@throw [OFOutOfRangeException exceptionWithClass: [self class]];
+		@throw [OFOutOfRangeException exception];
 
 	if (state->state + count > state->extra[1])
 		count = state->extra[1] - state->state;

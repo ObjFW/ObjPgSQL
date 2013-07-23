@@ -41,13 +41,11 @@
 	}
 
 	if ((_connnection = PQconnectdb([connectionInfo UTF8String])) == NULL)
-		@throw [OFOutOfMemoryException
-		    exceptionWithClass: [self class]];
+		@throw [OFOutOfMemoryException exception];
 
 	if (PQstatus(_connnection) == CONNECTION_BAD)
 		@throw [PGConnectionFailedException
-		    exceptionWithClass: [self class]
-			    connection: self];
+		    exceptionWithConnection: self];
 
 	[pool release];
 }
@@ -72,9 +70,8 @@
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
 		@throw [PGCommandFailedException
-		    exceptionWithClass: [self class]
-			    connection: self
-			       command: command];
+		    exceptionWithConnection: self
+				    command: command];
 	}
 
 	switch (PQresultStatus(result)) {
@@ -86,9 +83,8 @@
 	default:
 		PQclear(result);
 		@throw [PGCommandFailedException
-		    exceptionWithClass: [self class]
-			    connection: self
-			       command: command];
+		    exceptionWithConnection: self
+				    command: command];
 	}
 }
 
@@ -115,15 +111,17 @@
 			if ([parameter isKindOfClass: [OFString class]])
 				values[i++] = [parameter UTF8String];
 			else if ([parameter isKindOfClass: [OFNumber class]]) {
-				switch ([parameter type]) {
+				OFNumber *number = parameter;
+
+				switch ([number type]) {
 				case OF_NUMBER_BOOL:
-					if ([parameter boolValue])
+					if ([number boolValue])
 						values[i++] = "t";
 					else
 						values[i++] = "f";
 					break;
 				default:
-					values[i++] = [[parameter description]
+					values[i++] = [[number description]
 					    UTF8String];
 					break;
 				}
@@ -151,9 +149,8 @@
 	default:
 		PQclear(result);
 		@throw [PGCommandFailedException
-		    exceptionWithClass: [self class]
-			    connection: self
-			       command: command];
+		    exceptionWithConnection: self
+				    command: command];
 	}
 }
 
@@ -214,9 +211,8 @@
 	if (PQresultStatus(result) != PGRES_COMMAND_OK) {
 		PQclear(result);
 		@throw [PGCommandFailedException
-		    exceptionWithClass: [self class]
-			    connection: self
-			       command: command];
+		    exceptionWithConnection: self
+				    command: command];
 	}
 
 	PQclear(result);

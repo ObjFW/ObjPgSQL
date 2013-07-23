@@ -4,9 +4,7 @@
 - (OFString*)description
 {
 	return [OFString stringWithFormat:
-	    @"Establishing a PostgreSQL connection in class %@ failed:\n%s\n"
-	    "Parameters: %@", [self inClass],
-	    PQerrorMessage([_connection PG_connection]),
-	    [_connection parameters]];
+	    @"Establishing a PostgreSQL connection failed:\n%@\n"
+	    "Parameters: %@", _error, [_connection parameters]];
 }
 @end

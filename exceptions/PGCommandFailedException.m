@@ -1,21 +1,17 @@
 #import "PGCommandFailedException.h"
 
 @implementation PGCommandFailedException
-+ exceptionWithClass: (Class)class
-	  connection: (PGConnection*)connection
-	     command: (OFString*)command
++ (instancetype)exceptionWithConnection: (PGConnection*)connection
+				command: (OFString*)command
 {
-	return [[[self alloc] initWithClass: class
-				 connection: connection
-				    command: command] autorelease];
+	return [[[self alloc] initWithConnection: connection
+					 command: command] autorelease];
 }
 
-- initWithClass: (Class)class
-     connection: (PGConnection*)connection
-	command: (OFString*)command
+- initWithConnection: (PGConnection*)connection
+	     command: (OFString*)command
 {
-	self = [super initWithClass: class
-			 connection: connection];
+	self = [super initWithConnection: connection];
 
 	@try {
 		_command = [command copy];
@@ -36,10 +32,8 @@
 
 - (OFString*)description
 {
-	return [OFString stringWithFormat:
-	    @"A PostgreSQL command in class %@ failed: %s\nCommand: %@",
-	    [self inClass], PQerrorMessage([_connection PG_connection]),
-	    _command];
+	return [OFString stringWithFormat: @"A PostgreSQL command failed: %@\n"
+					   @"Command: %@", _error, _command];
 }
 
 - (OFString*)command

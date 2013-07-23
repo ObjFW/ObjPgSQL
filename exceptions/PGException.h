@@ -5,15 +5,14 @@
 @interface PGException: OFException
 {
 	PGConnection *_connection;
+	OFString *_error;
 }
 
 #ifdef OF_HAVE_PROPERTIES
 @property (readonly, retain, nonatomic) PGConnection *connection;
 #endif
 
-+ exceptionWithClass: (Class)class_
-	  connection: (PGConnection*)connection;
-- initWithClass: (Class)class_
-     connection: (PGConnection*)connection;
++ (instancetype)exceptionWithConnection: (PGConnection*)connection;
+- initWithConnection: (PGConnection*)connection;
 - (PGConnection*)connection;
 @end

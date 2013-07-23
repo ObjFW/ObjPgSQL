@@ -32,8 +32,7 @@
 - (id)objectAtIndex: (size_t)index
 {
 	if (index > PQntuples(_result))
-		@throw [OFOutOfRangeException
-		    exceptionWithClass: [self class]];
+		@throw [OFOutOfRangeException exception];
 
 	return [PGResultRow rowWithResult: self
 				      row: (int)index];

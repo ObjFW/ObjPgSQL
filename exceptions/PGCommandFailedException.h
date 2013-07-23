@@ -9,11 +9,9 @@
 @property (readonly, copy, nonatomic) OFString *command;
 #endif
 
-+ exceptionWithClass: (Class)class_
-	  connection: (PGConnection*)connection
++ (instancetype)exceptionWithConnection: (PGConnection*)connection
+				command: (OFString*)command;
+- initWithConnection: (PGConnection*)connection
 	     command: (OFString*)command;
-- initWithClass: (Class)class_
-     connection: (PGConnection*)connection
-	command: (OFString*)command;
 - (OFString*)command;
 @end
