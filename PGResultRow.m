@@ -1,7 +1,7 @@
 #import "PGResultRow.h"
 
 static id
-convert_type(PGresult *res, int column, OFString *string)
+convertType(PGresult *res, int column, OFString *string)
 {
 	switch (PQftype(res, column)) {
 	case 16:  /* BOOLOID */
@@ -94,7 +94,7 @@ convert_type(PGresult *res, int column, OFString *string)
 	if (PQgetisnull(_res, _row, column))
 		return nil;
 
-	return convert_type(_res, column,
+	return convertType(_res, column,
 	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, column)]);
 }
 
@@ -200,7 +200,7 @@ convert_type(PGresult *res, int column, OFString *string)
 	if (_pos >= _count)
 		return nil;
 
-	return convert_type(_res, _pos,
+	return convertType(_res, _pos,
 	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, _pos++)]);
 }
 @end

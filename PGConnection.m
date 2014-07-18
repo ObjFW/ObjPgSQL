@@ -114,7 +114,7 @@
 				OFNumber *number = parameter;
 
 				switch ([number type]) {
-				case OF_NUMBER_BOOL:
+				case OF_NUMBER_TYPE_BOOL:
 					if ([number boolValue])
 						values[i++] = "t";
 					else

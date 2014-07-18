@@ -14,7 +14,7 @@
 		_connection = [connection retain];
 		_error = [[OFString alloc]
 		    initWithCString: PQerrorMessage([_connection PG_connection])
-			   encoding: OF_STRING_ENCODING_NATIVE];
+			   encoding: [OFString nativeOSEncoding]];
 	} @catch (id e) {
 		[self release];
 		@throw e;
