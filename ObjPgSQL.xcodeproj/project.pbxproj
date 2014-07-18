@@ -27,19 +27,19 @@
 /* Begin PBXFileReference section */
 		4BCC7424161F81760074ED30 /* ObjPgSQL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjPgSQL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BCC743C161F82000074ED30 /* ObjFW.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjFW.framework; path = /Library/Frameworks/ObjFW.framework; sourceTree = "<absolute>"; };
-		4BCC743E161F82560074ED30 /* ObjPgSQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjPgSQL.h; sourceTree = SOURCE_ROOT; };
-		4BCC743F161F82560074ED30 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGConnection.h; sourceTree = SOURCE_ROOT; };
-		4BCC7440161F82560074ED30 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGConnection.m; sourceTree = SOURCE_ROOT; };
-		4BCC7441161F82560074ED30 /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResult.h; sourceTree = SOURCE_ROOT; };
-		4BCC7442161F82560074ED30 /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResult.m; sourceTree = SOURCE_ROOT; };
-		4BCC7443161F82560074ED30 /* PGResultRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGResultRow.h; sourceTree = SOURCE_ROOT; };
-		4BCC7444161F82560074ED30 /* PGResultRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGResultRow.m; sourceTree = SOURCE_ROOT; };
-		4BCC744D161F82820074ED30 /* PGCommandFailedException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGCommandFailedException.h; path = exceptions/PGCommandFailedException.h; sourceTree = SOURCE_ROOT; };
-		4BCC744E161F82820074ED30 /* PGCommandFailedException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGCommandFailedException.m; path = exceptions/PGCommandFailedException.m; sourceTree = SOURCE_ROOT; };
-		4BCC744F161F82820074ED30 /* PGConnectionFailedException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGConnectionFailedException.h; path = exceptions/PGConnectionFailedException.h; sourceTree = SOURCE_ROOT; };
-		4BCC7450161F82820074ED30 /* PGConnectionFailedException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGConnectionFailedException.m; path = exceptions/PGConnectionFailedException.m; sourceTree = SOURCE_ROOT; };
-		4BCC7451161F82820074ED30 /* PGException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGException.h; path = exceptions/PGException.h; sourceTree = SOURCE_ROOT; };
-		4BCC7452161F82820074ED30 /* PGException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGException.m; path = exceptions/PGException.m; sourceTree = SOURCE_ROOT; };
+		4BCC743E161F82560074ED30 /* ObjPgSQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjPgSQL.h; path = src/ObjPgSQL.h; sourceTree = SOURCE_ROOT; };
+		4BCC743F161F82560074ED30 /* PGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGConnection.h; path = src/PGConnection.h; sourceTree = SOURCE_ROOT; };
+		4BCC7440161F82560074ED30 /* PGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGConnection.m; path = src/PGConnection.m; sourceTree = SOURCE_ROOT; };
+		4BCC7441161F82560074ED30 /* PGResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGResult.h; path = src/PGResult.h; sourceTree = SOURCE_ROOT; };
+		4BCC7442161F82560074ED30 /* PGResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGResult.m; path = src/PGResult.m; sourceTree = SOURCE_ROOT; };
+		4BCC7443161F82560074ED30 /* PGResultRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGResultRow.h; path = src/PGResultRow.h; sourceTree = SOURCE_ROOT; };
+		4BCC7444161F82560074ED30 /* PGResultRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGResultRow.m; path = src/PGResultRow.m; sourceTree = SOURCE_ROOT; };
+		4BCC744D161F82820074ED30 /* PGCommandFailedException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGCommandFailedException.h; path = src/exceptions/PGCommandFailedException.h; sourceTree = SOURCE_ROOT; };
+		4BCC744E161F82820074ED30 /* PGCommandFailedException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGCommandFailedException.m; path = src/exceptions/PGCommandFailedException.m; sourceTree = SOURCE_ROOT; };
+		4BCC744F161F82820074ED30 /* PGConnectionFailedException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGConnectionFailedException.h; path = src/exceptions/PGConnectionFailedException.h; sourceTree = SOURCE_ROOT; };
+		4BCC7450161F82820074ED30 /* PGConnectionFailedException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGConnectionFailedException.m; path = src/exceptions/PGConnectionFailedException.m; sourceTree = SOURCE_ROOT; };
+		4BCC7451161F82820074ED30 /* PGException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGException.h; path = src/exceptions/PGException.h; sourceTree = SOURCE_ROOT; };
+		4BCC7452161F82820074ED30 /* PGException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGException.m; path = src/exceptions/PGException.m; sourceTree = SOURCE_ROOT; };
 		4BCC7464161F85DF0074ED30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		4BCC74AF162036A70074ED30 /* libpq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = /usr/local/lib/libpq.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
