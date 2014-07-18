@@ -14,12 +14,15 @@ OF_APPLICATION_DELEGATE(Test)
 @implementation Test
 - (void)applicationDidFinishLaunching
 {
+	OFString *username =
+	    [[OFApplication environment] objectForKey: @"USER"];
 	PGResult *result;
 
 	connection = [[PGConnection alloc] init];
 	[connection setParameters:
-	    [OFDictionary dictionaryWithKeysAndObjects: @"user", @"js",
-							@"dbname", @"js", nil]];
+	    [OFDictionary dictionaryWithKeysAndObjects: @"user", username,
+							@"dbname", username,
+							nil]];
 	[connection connect];
 
 	[connection executeCommand: @"DROP TABLE IF EXISTS test"];
