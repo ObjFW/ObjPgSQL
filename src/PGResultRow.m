@@ -191,6 +191,8 @@ convertType(PGresult *res, int column, OFString *string)
 @implementation PGResultRowObjectEnumerator
 - (id)nextObject
 {
+	id object;
+
 	if (_pos >= _count)
 		return nil;
 
@@ -200,7 +202,10 @@ convertType(PGresult *res, int column, OFString *string)
 	if (_pos >= _count)
 		return nil;
 
-	return convertType(_res, _pos,
-	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, _pos++)]);
+	object = convertType(_res, _pos,
+	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, _pos)]);
+	_pos++;
+
+	return object;
 }
 @end
