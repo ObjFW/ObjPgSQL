@@ -8,11 +8,8 @@
 	OFString *_error;
 }
 
-#ifdef OF_HAVE_PROPERTIES
-@property (readonly, retain, nonatomic) PGConnection *connection;
-#endif
+@property (readonly, retain) PGConnection *connection;
 
 + (instancetype)exceptionWithConnection: (PGConnection*)connection;
 - initWithConnection: (PGConnection*)connection;
-- (PGConnection*)connection;
 @end

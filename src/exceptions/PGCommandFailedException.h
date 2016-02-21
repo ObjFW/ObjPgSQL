@@ -5,13 +5,10 @@
 	OFString *_command;
 }
 
-#ifdef OF_HAVE_PROPERTIES
-@property (readonly, copy, nonatomic) OFString *command;
-#endif
+@property (readonly, copy) OFString *command;
 
 + (instancetype)exceptionWithConnection: (PGConnection*)connection
 				command: (OFString*)command;
 - initWithConnection: (PGConnection*)connection
 	     command: (OFString*)command;
-- (OFString*)command;
 @end

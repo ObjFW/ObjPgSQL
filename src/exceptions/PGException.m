@@ -1,6 +1,8 @@
 #import "PGException.h"
 
 @implementation PGException
+@synthesize connection = _connection;
+
 + (instancetype)exceptionWithConnection: (PGConnection*)connection
 {
 	return [[[self alloc] initWithConnection: connection] autorelease];
@@ -35,10 +37,5 @@
 {
 	return [OFString stringWithFormat: @"A PostgreSQL operation failed: %@",
 					   _error];
-}
-
-- (PGConnection*)connection
-{
-	OF_GETTER(_connection, NO)
 }
 @end

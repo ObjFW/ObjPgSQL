@@ -10,12 +10,8 @@
 	OFDictionary *_parameters;
 }
 
-#ifdef OF_HAVE_PROPERTIES
 @property (copy) OFDictionary *parameters;
-#endif
 
-- (void)setParameters: (OFDictionary*)parameters;
-- (OFDictionary*)parameters;
 - (void)connect;
 - (void)reset;
 - (void)close;

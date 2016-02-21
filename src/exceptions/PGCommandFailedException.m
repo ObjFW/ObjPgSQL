@@ -1,6 +1,8 @@
 #import "PGCommandFailedException.h"
 
 @implementation PGCommandFailedException
+@synthesize command = _command;
+
 + (instancetype)exceptionWithConnection: (PGConnection*)connection
 				command: (OFString*)command
 {
@@ -34,10 +36,5 @@
 {
 	return [OFString stringWithFormat: @"A PostgreSQL command failed: %@\n"
 					   @"Command: %@", _error, _command];
-}
-
-- (OFString*)command
-{
-	OF_GETTER(_command, NO)
 }
 @end

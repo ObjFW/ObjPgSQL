@@ -4,6 +4,8 @@
 #import "PGCommandFailedException.h"
 
 @implementation PGConnection
+@synthesize parameters = _parameters;
+
 - (void)dealloc
 {
 	[_parameters release];
@@ -11,16 +13,6 @@
 	[self close];
 
 	[super dealloc];
-}
-
-- (void)setParameters: (OFDictionary*)parameters
-{
-	OF_SETTER(_parameters, parameters, YES, YES)
-}
-
-- (OFDictionary*)parameters
-{
-	OF_GETTER(_parameters, YES)
 }
 
 - (void)connect
