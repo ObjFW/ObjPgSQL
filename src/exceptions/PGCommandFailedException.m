@@ -3,15 +3,15 @@
 @implementation PGCommandFailedException
 @synthesize command = _command;
 
-+ (instancetype)exceptionWithConnection: (PGConnection*)connection
-				command: (OFString*)command
++ (instancetype)exceptionWithConnection: (PGConnection *)connection
+				command: (OFString *)command
 {
 	return [[[self alloc] initWithConnection: connection
 					 command: command] autorelease];
 }
 
-- initWithConnection: (PGConnection*)connection
-	     command: (OFString*)command
+- initWithConnection: (PGConnection *)connection
+	     command: (OFString *)command
 {
 	self = [super initWithConnection: connection];
 
@@ -32,7 +32,7 @@
 	[super dealloc];
 }
 
-- (OFString*)description
+- (OFString *)description
 {
 	return [OFString stringWithFormat: @"A PostgreSQL command failed: %@\n"
 					   @"Command: %@", _error, _command];

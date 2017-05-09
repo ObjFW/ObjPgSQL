@@ -2,12 +2,12 @@
 #import "PGResultRow.h"
 
 @implementation PGResult
-+ PG_resultWithResult: (PGresult*)result
++ PG_resultWithResult: (PGresult *)result
 {
 	return [[[self alloc] PG_initWithResult: result] autorelease];
 }
 
-- PG_initWithResult: (PGresult*)result
+- PG_initWithResult: (PGresult *)result
 {
 	self = [super init];
 
@@ -38,7 +38,7 @@
 				      row: (int)index];
 }
 
-- (PGresult*)PG_result
+- (PGresult *)PG_result
 {
 	return _result;
 }

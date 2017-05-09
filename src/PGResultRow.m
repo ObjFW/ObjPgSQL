@@ -45,14 +45,14 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRow
-+ rowWithResult: (PGResult*)result
++ rowWithResult: (PGResult *)result
 	    row: (int)row
 {
 	return [[[self alloc] initWithResult: result
 					 row: row] autorelease];
 }
 
-- initWithResult: (PGResult*)result
+- initWithResult: (PGResult *)result
 	     row: (int)row
 {
 	self = [super init];
@@ -98,14 +98,14 @@ convertType(PGresult *res, int column, OFString *string)
 	    [OFString stringWithUTF8String: PQgetvalue(_res, _row, column)]);
 }
 
-- (OFEnumerator*)keyEnumerator
+- (OFEnumerator *)keyEnumerator
 {
 	return [[[PGResultRowKeyEnumerator alloc]
 	    initWithResult: _result
 		       row: _row] autorelease];
 }
 
-- (OFEnumerator*)objectEnumerator
+- (OFEnumerator *)objectEnumerator
 {
 	return [[[PGResultRowObjectEnumerator alloc]
 	    initWithResult: _result
@@ -113,7 +113,7 @@ convertType(PGresult *res, int column, OFString *string)
 }
 
 - (int)countByEnumeratingWithState: (of_fast_enumeration_state_t*)state
-			   objects: (id*)objects
+			   objects: (id *)objects
 			     count: (int)count
 {
 	int i, j;
@@ -146,7 +146,7 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRowEnumerator
-- initWithResult: (PGResult*)result
+- initWithResult: (PGResult *)result
 	     row: (int)row
 {
 	self = [super init];

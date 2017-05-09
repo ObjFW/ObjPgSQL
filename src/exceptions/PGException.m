@@ -3,12 +3,12 @@
 @implementation PGException
 @synthesize connection = _connection;
 
-+ (instancetype)exceptionWithConnection: (PGConnection*)connection
++ (instancetype)exceptionWithConnection: (PGConnection *)connection
 {
 	return [[[self alloc] initWithConnection: connection] autorelease];
 }
 
-- initWithConnection: (PGConnection*)connection
+- initWithConnection: (PGConnection *)connection
 {
 	self = [super init];
 
@@ -33,7 +33,7 @@
 	[super dealloc];
 }
 
-- (OFString*)description
+- (OFString *)description
 {
 	return [OFString stringWithFormat: @"A PostgreSQL operation failed: %@",
 					   _error];

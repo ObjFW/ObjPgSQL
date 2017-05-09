@@ -17,9 +17,11 @@
 
 - (void)connect
 {
-	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
-	OFEnumerator *keyEnumerator = [_parameters keyEnumerator];
-	OFEnumerator *objectEnumerator = [_parameters objectEnumerator];
+	void *pool = objc_autoreleasePoolPush();
+	OFEnumerator OF_GENERIC(OFString *) *keyEnumerator =
+	    [_parameters keyEnumerator];
+	OFEnumerator OF_GENERIC(OFString *) *objectEnumerator =
+	    [_parameters objectEnumerator];
 	OFMutableString *connectionInfo = nil;
 	OFString *key, *object;
 
@@ -39,7 +41,7 @@
 		@throw [PGConnectionFailedException
 		    exceptionWithConnection: self];
 
-	[pool release];
+	objc_autoreleasePoolPop(pool);
 }
 
 - (void)reset
@@ -55,7 +57,7 @@
 	_connnection = NULL;
 }
 
-- (PGResult*)executeCommand: (OFConstantString*)command
+- (PGResult *)executeCommand: (OFConstantString *)command
 {
 	PGresult *result = PQexec(_connnection, [command UTF8String]);
 
@@ -80,10 +82,10 @@
 	}
 }
 
-- (PGResult*)executeCommand: (OFConstantString*)command
-		 parameters: (id)parameter, ...
+- (PGResult *)executeCommand: (OFConstantString *)command
+		  parameters: (id)parameter, ...
 {
-	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
+	void *pool = objc_autoreleasePoolPush();
 	PGresult *result;
 	const char **values;
 	va_list args, args2;
@@ -130,7 +132,7 @@
 		[self freeMemory: values];
 	}
 
-	[pool release];
+	objc_autoreleasePoolPop(pool);
 
 	switch (PQresultStatus(result)) {
 	case PGRES_TUPLES_OK:
@@ -146,10 +148,10 @@
 	}
 }
 
-- (void)insertRow: (OFDictionary*)row
-	intoTable: (OFString*)table
+- (void)insertRow: (OFDictionary *)row
+	intoTable: (OFString *)table
 {
-	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
+	void *pool = objc_autoreleasePoolPush();
 	OFMutableString *command;
 	OFEnumerator *enumerator;
 	const char **values;
@@ -198,7 +200,7 @@
 		[self freeMemory: values];
 	}
 
-	[pool release];
+	objc_autoreleasePoolPop(pool);
 
 	if (PQresultStatus(result) != PGRES_COMMAND_OK) {
 		PQclear(result);
@@ -210,21 +212,15 @@
 	PQclear(result);
 }
 
-- (void)insertRows: (OFArray*)rows
-	 intoTable: (OFString*)table
+- (void)insertRows: (OFArray OF_GENERIC(OFDictionary *) *)rows
+	 intoTable: (OFString *)table
 {
-	OFAutoreleasePool *pool = [[OFAutoreleasePool alloc] init];
-	OFEnumerator *enumerator = [rows objectEnumerator];
-	OFDictionary *row;
-
-	while ((row = [enumerator nextObject]) != nil)
+	for (OFDictionary *row in rows)
 		[self insertRow: row
 		      intoTable: table];
-
-	[pool release];
 }
 
-- (PGconn*)PG_connection
+- (PGconn *)PG_connection
 {
 	return _connnection;
 }

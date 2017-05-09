@@ -1,7 +1,7 @@
 #import "PGConnectionFailedException.h"
 
 @implementation PGConnectionFailedException
-- (OFString*)description
+- (OFString *)description
 {
 	return [OFString stringWithFormat:
 	    @"Establishing a PostgreSQL connection failed:\n%@\n"
