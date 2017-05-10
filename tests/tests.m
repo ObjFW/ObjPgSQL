@@ -34,11 +34,15 @@ OF_APPLICATION_DELEGATE(Test)
 				    @")"];
 	[connection executeCommand: @"INSERT INTO test (id, name, content) "
 				    @"VALUES ($1, $2, $3)"
-			parameters: @1, @"foo", @"Hallo Welt!", nil];
+			parameters: [OFNumber numberWithInt: 1], @"foo",
+				    @"Hallo Welt!", nil];
 	[connection executeCommand: @"INSERT INTO test (id, content, success) "
 				    @"VALUES ($1, $2, $3)"
-			parameters: @2, @2, @YES, nil];
-	[connection insertRow: @{ @"content": @"Hallo!", @"name": @"foo" }
+			parameters: [OFNumber numberWithInt: 2],
+				    [OFNumber numberWithInt: 2],
+				    [OFNumber numberWithBool: true], nil];
+	[connection insertRow: [OFDictionary dictionaryWithKeysAndObjects:
+				   @"content", @"Hallo!", @"name", @"foo", nil]
 		    intoTable: @"test"];
 
 	result = [connection executeCommand: @"SELECT * FROM test"];
