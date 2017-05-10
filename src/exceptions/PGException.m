@@ -1,4 +1,5 @@
 #import "PGException.h"
+#import "PGConnection+Private.h"
 
 @implementation PGException
 @synthesize connection = _connection;

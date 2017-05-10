@@ -1,13 +1,14 @@
 #import "PGResult.h"
 #import "PGResultRow.h"
+#import "PGResultRow+Private.h"
 
 @implementation PGResult
-+ PG_resultWithResult: (PGresult *)result
++ (instancetype)PG_resultWithResult: (PGresult *)result
 {
 	return [[[self alloc] PG_initWithResult: result] autorelease];
 }
 
-- PG_initWithResult: (PGresult *)result
+- (instancetype)PG_initWithResult: (PGresult *)result
 {
 	self = [super init];
 
@@ -34,8 +35,8 @@
 	if (index > PQntuples(_result))
 		@throw [OFOutOfRangeException exception];
 
-	return [PGResultRow rowWithResult: self
-				      row: (int)index];
+	return [PGResultRow PG_rowWithResult: self
+					 row: (int)index];
 }
 
 - (PGresult *)PG_result

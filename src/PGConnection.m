@@ -1,4 +1,7 @@
 #import "PGConnection.h"
+#import "PGConnection+Private.h"
+#import "PGResult.h"
+#import "PGResult+Private.h"
 
 #import "PGConnectionFailedException.h"
 #import "PGCommandFailedException.h"
@@ -34,10 +37,10 @@
 			    @"%@=%@", key, object];
 	}
 
-	if ((_connnection = PQconnectdb([connectionInfo UTF8String])) == NULL)
+	if ((_connection = PQconnectdb([connectionInfo UTF8String])) == NULL)
 		@throw [OFOutOfMemoryException exception];
 
-	if (PQstatus(_connnection) == CONNECTION_BAD)
+	if (PQstatus(_connection) == CONNECTION_BAD)
 		@throw [PGConnectionFailedException
 		    exceptionWithConnection: self];
 
@@ -46,20 +49,20 @@
 
 - (void)reset
 {
-	PQreset(_connnection);
+	PQreset(_connection);
 }
 
 - (void)close
 {
-	if (_connnection != NULL)
-		PQfinish(_connnection);
+	if (_connection != NULL)
+		PQfinish(_connection);
 
-	_connnection = NULL;
+	_connection = NULL;
 }
 
 - (PGResult *)executeCommand: (OFConstantString *)command
 {
-	PGresult *result = PQexec(_connnection, [command UTF8String]);
+	PGresult *result = PQexec(_connection, [command UTF8String]);
 
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
@@ -126,7 +129,7 @@
 				    UTF8String];
 		} while ((parameter = va_arg(args, id)) != nil);
 
-		result = PQexecParams(_connnection, [command UTF8String],
+		result = PQexecParams(_connection, [command UTF8String],
 		    argsCount, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
@@ -194,7 +197,7 @@
 
 		[command appendString: @")"];
 
-		result = PQexecParams(_connnection, [command UTF8String],
+		result = PQexecParams(_connection, [command UTF8String],
 		    (int)count, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
@@ -222,6 +225,6 @@
 
 - (PGconn *)PG_connection
 {
-	return _connnection;
+	return _connection;
 }
 @end

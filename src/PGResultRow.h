@@ -6,17 +6,12 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface PGResultRow: OFDictionary
+@interface PGResultRow: OFDictionary OF_GENERIC(OFString *, id)
 {
 	PGResult *_result;
 	PGresult *_res;
 	int _row;
 }
-
-+ rowWithResult: (PGResult *)result
-	    row: (int)row;
-- initWithResult: (PGResult *)result
-	     row: (int)row;
 @end
 
 OF_ASSUME_NONNULL_END

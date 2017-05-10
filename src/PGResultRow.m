@@ -1,4 +1,5 @@
 #import "PGResultRow.h"
+#import "PGResult+Private.h"
 
 static id
 convertType(PGresult *res, int column, OFString *string)
@@ -45,8 +46,8 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRow
-+ rowWithResult: (PGResult *)result
-	    row: (int)row
++ (instancetype)rowWithResult: (PGResult *)result
+			  row: (int)row
 {
 	return [[[self alloc] initWithResult: result
 					 row: row] autorelease];
