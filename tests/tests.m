@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018
  *   Jonathan Schleifer <js@heap.zone>
  *
  * https://heap.zone/git/objpgsql.git
@@ -26,9 +26,9 @@
 #import "PGConnection.h"
 #import "PGConnectionFailedException.h"
 
-@interface Test: OFObject
+@interface Test: OFObject <OFApplicationDelegate>
 {
-	PGConnection *connection;
+	PGConnection *_connection;
 }
 @end
 
@@ -41,34 +41,34 @@ OF_APPLICATION_DELEGATE(Test)
 	    [[OFApplication environment] objectForKey: @"USER"];
 	PGResult *result;
 
-	connection = [[PGConnection alloc] init];
-	[connection setParameters:
+	_connection = [[PGConnection alloc] init];
+	[_connection setParameters:
 	    [OFDictionary dictionaryWithKeysAndObjects: @"user", username,
 							@"dbname", username,
 							nil]];
-	[connection connect];
+	[_connection connect];
 
-	[connection executeCommand: @"DROP TABLE IF EXISTS test"];
-	[connection executeCommand: @"CREATE TABLE test ("
-				    @"    id integer,"
-				    @"    name varchar(255),"
-				    @"    content text,"
-				    @"    success boolean"
-				    @")"];
-	[connection executeCommand: @"INSERT INTO test (id, name, content) "
-				    @"VALUES ($1, $2, $3)"
-			parameters: [OFNumber numberWithInt: 1], @"foo",
-				    @"Hallo Welt!", nil];
-	[connection executeCommand: @"INSERT INTO test (id, content, success) "
-				    @"VALUES ($1, $2, $3)"
-			parameters: [OFNumber numberWithInt: 2],
-				    [OFNumber numberWithInt: 2],
-				    [OFNumber numberWithBool: true], nil];
-	[connection insertRow: [OFDictionary dictionaryWithKeysAndObjects:
-				   @"content", @"Hallo!", @"name", @"foo", nil]
-		    intoTable: @"test"];
+	[_connection executeCommand: @"DROP TABLE IF EXISTS test"];
+	[_connection executeCommand: @"CREATE TABLE test ("
+				     @"    id integer,"
+				     @"    name varchar(255),"
+				     @"    content text,"
+				     @"    success boolean"
+				     @")"];
+	[_connection executeCommand: @"INSERT INTO test (id, name, content) "
+				     @"VALUES ($1, $2, $3)"
+			 parameters: [OFNumber numberWithInt: 1], @"foo",
+				     @"Hallo Welt!", nil];
+	[_connection executeCommand: @"INSERT INTO test (id, content, success) "
+				     @"VALUES ($1, $2, $3)"
+			 parameters: [OFNumber numberWithInt: 2],
+				     [OFNumber numberWithInt: 2],
+				     [OFNumber numberWithBool: true], nil];
+	[_connection insertRow: [OFDictionary dictionaryWithKeysAndObjects:
+				    @"content", @"Hallo!", @"name", @"foo", nil]
+		     intoTable: @"test"];
 
-	result = [connection executeCommand: @"SELECT * FROM test"];
+	result = [_connection executeCommand: @"SELECT * FROM test"];
 	of_log(@"%@", result);
 	of_log(@"JSON: %@", [result JSONRepresentation]);
 
@@ -76,7 +76,7 @@ OF_APPLICATION_DELEGATE(Test)
 		for (id col in row)
 			of_log(@"%@", col);
 
-	result = [connection executeCommand: @"SELECT COUNT(*) FROM test"];
+	result = [_connection executeCommand: @"SELECT COUNT(*) FROM test"];
 	of_log(@"%@", result);
 
 	[OFApplication terminate];
