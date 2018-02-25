@@ -22,7 +22,8 @@ CPP="$OBJCPP"
 CPPFLAGS="$CPPFLAGS $OBJCPPFLAGS $($OBJFW_CONFIG --cppflags)"
 OBJCFLAGS="$OBJCFLAGS $($OBJFW_CONFIG --objcflags)"
 LDFLAGS="$LDFLAGS $($OBJFW_CONFIG --ldflags)"
-LIBS="$LIBS $($OBJFW_CONFIG --libs)"
+AC_SUBST(OBJFW_LIBS, "$($OBJFW_CONFIG --libs)")
+AC_SUBST(OBJFW_FRAMEWORK_LIBS, "$($OBJFW_CONFIG --framework-libs)")
 
 AC_CHECK_TOOL(AR, ar)
 AC_PROG_RANLIB
@@ -33,6 +34,10 @@ AS_IF([test x"$enable_shared" != x"no"], [
 	AC_SUBST(OBJPGSQL_SHARED_LIB, "${LIB_PREFIX}objpgsql${LIB_SUFFIX}")
 	AC_SUBST(EXCEPTIONS_LIB_A, "exceptions.lib.a")
 	AC_SUBST(EXCEPTIONS_EXCEPTIONS_LIB_A, "exceptions/exceptions.lib.a")
+
+	BUILDSYS_FRAMEWORK([
+		AC_SUBST(OBJPGSQL_FRAMEWORK, "ObjPgSQL.framework")
+	])
 ])
 AC_ARG_ENABLE(static, AS_HELP_STRING([--enable-static], [build static library]))
 AS_IF([test x"$enable_static" = x"yes" -o x"$enable_shared" = x"no"], [

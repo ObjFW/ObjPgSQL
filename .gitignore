@@ -14,5 +14,6 @@ config.log
 config.status
 configure
 extra.mk
+src/ObjPgSQL.framework
 tests/tests
 tests/tests.exe
