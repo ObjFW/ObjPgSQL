@@ -40,7 +40,7 @@
 		_connection = [connection retain];
 		_error = [[OFString alloc]
 		    initWithCString: PQerrorMessage([_connection PG_connection])
-			   encoding: [OFLocalization encoding]];
+			   encoding: [OFLocale encoding]];
 	} @catch (id e) {
 		[self release];
 		@throw e;
