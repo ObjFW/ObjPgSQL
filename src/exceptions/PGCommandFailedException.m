@@ -27,14 +27,24 @@
 @synthesize command = _command;
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
+{
+	OF_UNRECOGNIZED_SELECTOR
+}
+
++ (instancetype)exceptionWithConnection: (PGConnection *)connection
 				command: (OFString *)command
 {
 	return [[[self alloc] initWithConnection: connection
 					 command: command] autorelease];
 }
 
-- initWithConnection: (PGConnection *)connection
-	     command: (OFString *)command
+- (instancetype)initWithConnection: (PGConnection *)connection
+{
+	OF_INVALID_INIT_METHOD
+}
+
+- (instancetype)initWithConnection: (PGConnection *)connection
+			   command: (OFString *)command
 {
 	self = [super initWithConnection: connection];
 

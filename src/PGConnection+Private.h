@@ -26,7 +26,7 @@
 OF_ASSUME_NONNULL_BEGIN
 
 @interface PGConnection ()
-- (PGconn *)PG_connection;
+@property (readonly, nonatomic) PGconn *pg_connection;
 @end
 
 OF_ASSUME_NONNULL_END

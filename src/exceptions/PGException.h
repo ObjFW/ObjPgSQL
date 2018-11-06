@@ -36,7 +36,8 @@ OF_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) PGConnection *connection;
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection;
-- initWithConnection: (PGConnection *)connection;
+- (instancetype)initWithConnection: (PGConnection *)connection
+    OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

@@ -39,7 +39,7 @@
 	@try {
 		_connection = [connection retain];
 		_error = [[OFString alloc]
-		    initWithCString: PQerrorMessage([_connection PG_connection])
+		    initWithCString: PQerrorMessage([_connection pg_connection])
 			   encoding: [OFLocale encoding]];
 	} @catch (id e) {
 		[self release];

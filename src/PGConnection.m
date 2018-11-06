@@ -30,6 +30,7 @@
 #import "PGCommandFailedException.h"
 
 @implementation PGConnection
+@synthesize pg_connection = _connection;
 @synthesize parameters = _parameters;
 
 - (void)dealloc
@@ -96,7 +97,7 @@
 
 	switch (PQresultStatus(result)) {
 	case PGRES_TUPLES_OK:
-		return [PGResult PG_resultWithResult: result];
+		return [PGResult pg_resultWithResult: result];
 	case PGRES_COMMAND_OK:
 		PQclear(result);
 		return nil;
@@ -162,7 +163,7 @@
 
 	switch (PQresultStatus(result)) {
 	case PGRES_TUPLES_OK:
-		return [PGResult PG_resultWithResult: result];
+		return [PGResult pg_resultWithResult: result];
 	case PGRES_COMMAND_OK:
 		PQclear(result);
 		return nil;
@@ -244,10 +245,5 @@
 	for (OFDictionary *row in rows)
 		[self insertRow: row
 		      intoTable: table];
-}
-
-- (PGconn *)PG_connection
-{
-	return _connection;
 }
 @end

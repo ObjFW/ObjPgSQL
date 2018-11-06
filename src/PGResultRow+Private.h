@@ -26,10 +26,11 @@
 OF_ASSUME_NONNULL_BEGIN
 
 @interface PGResultRow ()
-+ (instancetype)PG_rowWithResult: (PGResult *)result
++ (instancetype)pg_rowWithResult: (PGResult *)result
 			     row: (int)row;
-- PG_initWithResult: (PGResult *)result
-		row: (int)row OF_METHOD_FAMILY(init);
+- (instancetype)pg_initWithResult: (PGResult *)result
+			      row: (int)row OF_METHOD_FAMILY(init)
+    OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

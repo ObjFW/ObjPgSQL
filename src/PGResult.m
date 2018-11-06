@@ -22,16 +22,19 @@
  */
 
 #import "PGResult.h"
+#import "PGResult+Private.h"
 #import "PGResultRow.h"
 #import "PGResultRow+Private.h"
 
 @implementation PGResult
-+ (instancetype)PG_resultWithResult: (PGresult *)result
+@synthesize pg_result = _result;
+
++ (instancetype)pg_resultWithResult: (PGresult *)result
 {
-	return [[[self alloc] PG_initWithResult: result] autorelease];
+	return [[[self alloc] pg_initWithResult: result] autorelease];
 }
 
-- (instancetype)PG_initWithResult: (PGresult *)result
+- (instancetype)pg_initWithResult: (PGresult *)result
 {
 	self = [super init];
 
@@ -58,12 +61,7 @@
 	if (index > PQntuples(_result))
 		@throw [OFOutOfRangeException exception];
 
-	return [PGResultRow PG_rowWithResult: self
+	return [PGResultRow pg_rowWithResult: self
 					 row: (int)index];
-}
-
-- (PGresult *)PG_result
-{
-	return _result;
 }
 @end

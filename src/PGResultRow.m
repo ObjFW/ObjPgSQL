@@ -82,7 +82,7 @@ convertType(PGresult *res, int column, OFString *string)
 	self = [super init];
 
 	_result = [result retain];
-	_res = [result PG_result];
+	_res = [result pg_result];
 	_row = row;
 
 	return self;
@@ -163,7 +163,7 @@ convertType(PGresult *res, int column, OFString *string)
 
 	state->state += count;
 	state->itemsPtr = objects;
-	state->mutationsPtr = (unsigned long*)self;
+	state->mutationsPtr = (unsigned long *)self;
 
 	return j;
 }
@@ -176,7 +176,7 @@ convertType(PGresult *res, int column, OFString *string)
 	self = [super init];
 
 	_result = [result retain];
-	_res = [result PG_result];
+	_res = [result pg_result];
 	_row = row;
 	_count = PQnfields(_res);
 

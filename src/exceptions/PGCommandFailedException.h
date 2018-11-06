@@ -33,9 +33,13 @@ OF_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) OFString *command;
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
+    OF_UNAVAILABLE;
++ (instancetype)exceptionWithConnection: (PGConnection *)connection
 				command: (OFString *)command;
-- initWithConnection: (PGConnection *)connection
-	     command: (OFString *)command;
+- (instancetype)initWithConnection: (PGConnection *)connection OF_UNAVAILABLE;
+- (instancetype)initWithConnection: (PGConnection *)connection
+			   command: (OFString *)command
+    OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END

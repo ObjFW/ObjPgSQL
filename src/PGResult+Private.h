@@ -26,9 +26,11 @@
 OF_ASSUME_NONNULL_BEGIN
 
 @interface PGResult ()
-+ (instancetype)PG_resultWithResult: (PGresult *)result;
-- PG_initWithResult: (PGresult *)result OF_METHOD_FAMILY(init);
-- (PGresult *)PG_result;
+@property (readonly, nonatomic) PGresult *pg_result;
+
++ (instancetype)pg_resultWithResult: (PGresult *)result;
+- (instancetype)pg_initWithResult: (PGresult *)result OF_METHOD_FAMILY(init)
+    OF_DESIGNATED_INITIALIZER;
 @end
 
 OF_ASSUME_NONNULL_END
