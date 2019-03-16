@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
  *   Jonathan Schleifer <js@heap.zone>
  *
  * https://heap.zone/git/objpgsql.git
@@ -35,17 +35,17 @@ convertType(PGresult *res, int column, OFString *string)
 			return [OFNumber numberWithBool: NO];
 	case 21:  /* INT2OID */
 		return [OFNumber numberWithInt16:
-		    (int16_t)[string decimalValue]];
+		    (int16_t)string.decimalValue];
 	case 23:  /* INT4OID */
 		return [OFNumber numberWithInt32:
-		    (int32_t)[string decimalValue]];
+		    (int32_t)string.decimalValue];
 	case 20:  /* INT8OID */
 		return [OFNumber numberWithInt64:
-		    (int64_t)[string decimalValue]];
+		    (int64_t)string.decimalValue];
 	case 700: /* FLOAT4OID */
-		return [OFNumber numberWithFloat: [string floatValue]];
+		return [OFNumber numberWithFloat: string.floatValue];
 	case 701: /* FLOAT8OID */
-		return [OFNumber numberWithDouble: [string doubleValue]];
+		return [OFNumber numberWithDouble: string.doubleValue];
 	}
 
 	return string;
@@ -76,13 +76,13 @@ convertType(PGresult *res, int column, OFString *string)
 					 row: row] autorelease];
 }
 
-- initWithResult: (PGResult *)result
-	     row: (int)row
+- (instancetype)initWithResult: (PGResult *)result
+			   row: (int)row
 {
 	self = [super init];
 
 	_result = [result retain];
-	_res = [result pg_result];
+	_res = result.pg_result;
 	_row = row;
 
 	return self;
@@ -170,13 +170,13 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRowEnumerator
-- initWithResult: (PGResult *)result
-	     row: (int)row
+- (instancetype)initWithResult: (PGResult *)result
+			   row: (int)row
 {
 	self = [super init];
 
 	_result = [result retain];
-	_res = [result pg_result];
+	_res = result.pg_result;
 	_row = row;
 	_count = PQnfields(_res);
 

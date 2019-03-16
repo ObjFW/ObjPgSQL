@@ -29,8 +29,7 @@ OF_ASSUME_NONNULL_BEGIN
 + (instancetype)pg_rowWithResult: (PGResult *)result
 			     row: (int)row;
 - (instancetype)pg_initWithResult: (PGResult *)result
-			      row: (int)row OF_METHOD_FAMILY(init)
-    OF_DESIGNATED_INITIALIZER;
+			      row: (int)row;
 @end
 
 OF_ASSUME_NONNULL_END

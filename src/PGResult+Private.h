@@ -29,8 +29,7 @@ OF_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) PGresult *pg_result;
 
 + (instancetype)pg_resultWithResult: (PGresult *)result;
-- (instancetype)pg_initWithResult: (PGresult *)result OF_METHOD_FAMILY(init)
-    OF_DESIGNATED_INITIALIZER;
+- (instancetype)pg_initWithResult: (PGresult *)result;
 @end
 
 OF_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
  *   Jonathan Schleifer <js@heap.zone>
  *
  * https://heap.zone/git/objpgsql.git
@@ -61,7 +61,7 @@
 			    @"%@=%@", key, object];
 	}
 
-	if ((_connection = PQconnectdb([connectionInfo UTF8String])) == NULL)
+	if ((_connection = PQconnectdb(connectionInfo.UTF8String)) == NULL)
 		@throw [OFOutOfMemoryException exception];
 
 	if (PQstatus(_connection) == CONNECTION_BAD)
@@ -86,7 +86,7 @@
 
 - (PGResult *)executeCommand: (OFConstantString *)command
 {
-	PGresult *result = PQexec(_connection, [command UTF8String]);
+	PGresult *result = PQexec(_connection, command.UTF8String);
 
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
@@ -134,26 +134,26 @@
 			else if ([parameter isKindOfClass: [OFNumber class]]) {
 				OFNumber *number = parameter;
 
-				switch ([number type]) {
+				switch (number.type) {
 				case OF_NUMBER_TYPE_BOOL:
-					if ([number boolValue])
+					if (number.boolValue)
 						values[i++] = "t";
 					else
 						values[i++] = "f";
 					break;
 				default:
-					values[i++] = [[number description]
-					    UTF8String];
+					values[i++] =
+					    number.description.UTF8String;
 					break;
 				}
 			} else if ([parameter isKindOfClass: [OFNull class]])
 				values[i++] = NULL;
 			else
-				values[i++] = [[parameter description]
-				    UTF8String];
+				values[i++] =
+				    [parameter description].UTF8String;
 		} while ((parameter = va_arg(args, id)) != nil);
 
-		result = PQexecParams(_connection, [command UTF8String],
+		result = PQexecParams(_connection, command.UTF8String,
 		    argsCount, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
@@ -190,7 +190,7 @@
 	[command appendString: table];
 	[command appendString: @" ("];
 
-	count = [row count];
+	count = row.count;
 
 	i = 0;
 	enumerator = [row keyEnumerator];
@@ -214,14 +214,14 @@
 			if (i > 0)
 				[command appendString: @", "];
 
-			values[i] = [value UTF8String];
+			values[i] = value.UTF8String;
 
 			[command appendFormat: @"$%zd", ++i];
 		}
 
 		[command appendString: @")"];
 
-		result = PQexecParams(_connection, [command UTF8String],
+		result = PQexecParams(_connection, command.UTF8String,
 		    (int)count, NULL, values, NULL, NULL, 0);
 	} @finally {
 		[self freeMemory: values];
