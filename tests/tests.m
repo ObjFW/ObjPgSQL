@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018
- *   Jonathan Schleifer <js@heap.zone>
+ *   Jonathan Schleifer <js@nil.im>
  *
- * https://heap.zone/git/objpgsql.git
+ * https://fossil.nil.im/objpgsql
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
