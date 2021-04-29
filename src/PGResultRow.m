@@ -34,14 +34,14 @@ convertType(PGresult *res, int column, OFString *string)
 		else
 			return [OFNumber numberWithBool: NO];
 	case 21:  /* INT2OID */
-		return [OFNumber numberWithInt16:
-		    (int16_t)string.decimalValue];
+		return [OFNumber numberWithShort:
+		    (short)[string longLongValueWithBase: 10]];
 	case 23:  /* INT4OID */
-		return [OFNumber numberWithInt32:
-		    (int32_t)string.decimalValue];
+		return [OFNumber numberWithLong:
+		    (long)[string longLongValueWithBase: 10]];
 	case 20:  /* INT8OID */
-		return [OFNumber numberWithInt64:
-		    (int64_t)string.decimalValue];
+		return [OFNumber numberWithLongLong:
+		    [string longLongValueWithBase: 10]];
 	case 700: /* FLOAT4OID */
 		return [OFNumber numberWithFloat: string.floatValue];
 	case 701: /* FLOAT8OID */
@@ -58,8 +58,7 @@ convertType(PGresult *res, int column, OFString *string)
 	int _row, _pos, _count;
 }
 
-- initWithResult: (PGResult*)result
-	     row: (int)row;
+- initWithResult: (PGResult*)result row: (int)row;
 @end
 
 @interface PGResultRowKeyEnumerator: PGResultRowEnumerator
@@ -69,15 +68,12 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRow
-+ (instancetype)rowWithResult: (PGResult *)result
-			  row: (int)row
++ (instancetype)rowWithResult: (PGResult *)result row: (int)row
 {
-	return [[[self alloc] initWithResult: result
-					 row: row] autorelease];
+	return [[[self alloc] initWithResult: result row: row] autorelease];
 }
 
-- (instancetype)initWithResult: (PGResult *)result
-			   row: (int)row
+- (instancetype)initWithResult: (PGResult *)result row: (int)row
 {
 	self = [super init];
 
@@ -136,7 +132,7 @@ convertType(PGresult *res, int column, OFString *string)
 		       row: _row] autorelease];
 }
 
-- (int)countByEnumeratingWithState: (of_fast_enumeration_state_t*)state
+- (int)countByEnumeratingWithState: (OFFastEnumerationState *)state
 			   objects: (id *)objects
 			     count: (int)count
 {
@@ -170,8 +166,7 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRowEnumerator
-- (instancetype)initWithResult: (PGResult *)result
-			   row: (int)row
+- (instancetype)initWithResult: (PGResult *)result row: (int)row
 {
 	self = [super init];
 

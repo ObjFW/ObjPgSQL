@@ -61,7 +61,6 @@
 	if (index > PQntuples(_result))
 		@throw [OFOutOfRangeException exception];
 
-	return [PGResultRow pg_rowWithResult: self
-					 row: (int)index];
+	return [PGResultRow pg_rowWithResult: self row: (int)index];
 }
 @end

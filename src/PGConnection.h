@@ -29,6 +29,8 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
+
 @interface PGConnection: OFObject
 {
 	PGconn *_connection;
@@ -43,10 +45,9 @@ OF_ASSUME_NONNULL_BEGIN
 - (void)close;
 - (nullable PGResult *)executeCommand: (OFConstantString *)command;
 - (nullable PGResult *)executeCommand: (OFConstantString *)command
-		  parameters: (id)firstParameter, ... OF_SENTINEL;
-- (void)insertRow: (OFDictionary *)row
-	intoTable: (OFString *)table;
-- (void)insertRows: (OFArray OF_GENERIC(OFDictionary *) *)rows
+			   parameters: (id)firstParameter, ... OF_SENTINEL;
+- (void)insertRow: (PGRow)row intoTable: (OFString *)table;
+- (void)insertRows: (OFArray OF_GENERIC(PGRow) *)rows
 	 intoTable: (OFString *)table;
 @end
 

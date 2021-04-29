@@ -30,8 +30,7 @@
 #import "PGCommandFailedException.h"
 
 @implementation PGConnection
-@synthesize pg_connection = _connection;
-@synthesize parameters = _parameters;
+@synthesize pg_connection = _connection, parameters = _parameters;
 
 - (void)dealloc
 {
@@ -123,8 +122,7 @@
 
 	for (argsCount = 1; va_arg(args2, id) != nil; argsCount++);
 
-	values = [self allocMemoryWithSize: sizeof(*values)
-				     count: argsCount];
+	values = OFAllocMemory(argsCount, sizeof(*values));
 	@try {
 		size_t i = 0;
 
@@ -134,18 +132,15 @@
 			else if ([parameter isKindOfClass: [OFNumber class]]) {
 				OFNumber *number = parameter;
 
-				switch (number.type) {
-				case OF_NUMBER_TYPE_BOOL:
+				if (strcmp(number.objCType,
+				    @encode(bool)) == 0) {
 					if (number.boolValue)
 						values[i++] = "t";
 					else
 						values[i++] = "f";
-					break;
-				default:
+				} else
 					values[i++] =
 					    number.description.UTF8String;
-					break;
-				}
 			} else if ([parameter isKindOfClass: [OFNull class]])
 				values[i++] = NULL;
 			else
@@ -156,7 +151,7 @@
 		result = PQexecParams(_connection, command.UTF8String,
 		    argsCount, NULL, values, NULL, NULL, 0);
 	} @finally {
-		[self freeMemory: values];
+		OFFreeMemory(values);
 	}
 
 	objc_autoreleasePoolPop(pool);
@@ -175,8 +170,7 @@
 	}
 }
 
-- (void)insertRow: (OFDictionary *)row
-	intoTable: (OFString *)table
+- (void)insertRow: (PGRow)row intoTable: (OFString *)table
 {
 	void *pool = objc_autoreleasePoolPush();
 	OFMutableString *command;
@@ -205,8 +199,7 @@
 
 	[command appendString: @") VALUES ("];
 
-	values = [self allocMemoryWithSize: sizeof(*values)
-				     count: count];
+	values = OFAllocMemory(count, sizeof(*values));
 	@try {
 		i = 0;
 		enumerator = [row objectEnumerator];
@@ -224,7 +217,7 @@
 		result = PQexecParams(_connection, command.UTF8String,
 		    (int)count, NULL, values, NULL, NULL, 0);
 	} @finally {
-		[self freeMemory: values];
+		OFFreeMemory(values);
 	}
 
 	objc_autoreleasePoolPop(pool);
@@ -239,11 +232,10 @@
 	PQclear(result);
 }
 
-- (void)insertRows: (OFArray OF_GENERIC(OFDictionary *) *)rows
+- (void)insertRows: (OFArray OF_GENERIC(PGRow) *)rows
 	 intoTable: (OFString *)table
 {
 	for (OFDictionary *row in rows)
-		[self insertRow: row
-		      intoTable: table];
+		[self insertRow: row intoTable: table];
 }
 @end

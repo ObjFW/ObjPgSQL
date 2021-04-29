@@ -69,15 +69,15 @@ OF_APPLICATION_DELEGATE(Test)
 		     intoTable: @"test"];
 
 	result = [_connection executeCommand: @"SELECT * FROM test"];
-	of_log(@"%@", result);
-	of_log(@"JSON: %@", [result JSONRepresentation]);
+	OFLog(@"%@", result);
+	OFLog(@"JSON: %@", [result JSONRepresentation]);
 
 	for (id row in result)
 		for (id col in row)
-			of_log(@"%@", col);
+			OFLog(@"%@", col);
 
 	result = [_connection executeCommand: @"SELECT COUNT(*) FROM test"];
-	of_log(@"%@", result);
+	OFLog(@"%@", result);
 
 	[OFApplication terminate];
 }
