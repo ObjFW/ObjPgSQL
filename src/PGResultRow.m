@@ -68,12 +68,12 @@ convertType(PGresult *res, int column, OFString *string)
 @end
 
 @implementation PGResultRow
-+ (instancetype)rowWithResult: (PGResult *)result row: (int)row
++ (instancetype)pg_rowWithResult: (PGResult *)result row: (int)row
 {
-	return [[[self alloc] initWithResult: result row: row] autorelease];
+	return [[[self alloc] pg_initWithResult: result row: row] autorelease];
 }
 
-- (instancetype)initWithResult: (PGResult *)result row: (int)row
+- (instancetype)pg_initWithResult: (PGResult *)result row: (int)row
 {
 	self = [super init];
 
