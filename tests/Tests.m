@@ -35,7 +35,7 @@
 OF_APPLICATION_DELEGATE(Test)
 
 @implementation Test
-- (void)applicationDidFinishLaunching
+- (void)applicationDidFinishLaunching: (OFNotification *)notification
 {
 	OFString *username =
 	    [[OFApplication environment] objectForKey: @"USER"];
