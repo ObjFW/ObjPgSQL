@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2024
  *   Jonathan Schleifer <js@nil.im>
  *
  * https://fossil.nil.im/objpgsql
@@ -58,7 +58,7 @@
 
 - (id)objectAtIndex: (size_t)index
 {
-	if (index > PQntuples(_result))
+	if (index > LONG_MAX || (long)index > PQntuples(_result))
 		@throw [OFOutOfRangeException exception];
 
 	return [PGResultRow pg_rowWithResult: self row: (int)index];

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2024
  *   Jonathan Schleifer <js@nil.im>
  *
  * https://fossil.nil.im/objpgsql
@@ -58,7 +58,7 @@ convertType(PGresult *res, int column, OFString *string)
 	int _row, _pos, _count;
 }
 
-- initWithResult: (PGResult*)result row: (int)row;
+- (instancetype)initWithResult: (PGResult*)result row: (int)row;
 @end
 
 @interface PGResultRowKeyEnumerator: PGResultRowEnumerator
@@ -143,7 +143,7 @@ convertType(PGresult *res, int column, OFString *string)
 		state->extra[1] = PQnfields(_res);
 	}
 
-	if (count > SIZE_MAX - state->state)
+	if (count < 0 || (unsigned long)count > SIZE_MAX - state->state)
 		@throw [OFOutOfRangeException exception];
 
 	if (state->state + count > state->extra[1])

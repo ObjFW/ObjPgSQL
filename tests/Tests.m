@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018
+ * Copyright (c) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2024
  *   Jonathan Schleifer <js@nil.im>
  *
  * https://fossil.nil.im/objpgsql
