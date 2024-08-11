@@ -23,6 +23,6 @@
 {
 	return [OFString stringWithFormat:
 	    @"Establishing a PostgreSQL connection failed:\n%@\n"
-	    "Parameters: %@", _error, [_connection parameters]];
+	    "Parameters: %@", _errorMessage, [_connection parameters]];
 }
 @end

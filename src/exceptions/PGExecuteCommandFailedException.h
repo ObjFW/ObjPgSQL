@@ -20,20 +20,46 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface PGCommandFailedException: PGException
+/**
+ * @class PGExecuteCommandFailedException PGExecuteCommandFailedException.h
+ *	  ObjPgSQL/ObjPgSQL.h
+ *
+ * @brief An exception indicating that executing a command failed.
+ */
+@interface PGExecuteCommandFailedException: PGException
 {
-	OFString *_command;
+	OFConstantString *_command;
 }
 
-@property (readonly, nonatomic) OFString *command;
+/**
+ * @brief The command that could not be executed.
+ */
+@property (readonly, nonatomic) OFConstantString *command;
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
     OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new execte command failed exception.
+ *
+ * @param connection The connection for which the command could not be executed
+ * @param command The command which could not be executed
+ * @return A new, autoreleased execute command failed exception
+ */
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
-				command: (OFString *)command;
+				command: (OFConstantString *)command;
+
 - (instancetype)initWithConnection: (PGConnection *)connection OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated execte command failed exception.
+ *
+ * @param connection The connection for which the command could not be executed
+ * @param command The command which could not be executed
+ * @return An initialized execute command failed exception
+ */
 - (instancetype)initWithConnection: (PGConnection *)connection
-			   command: (OFString *)command
+			   command: (OFConstantString *)command
     OF_DESIGNATED_INITIALIZER;
 @end
 

@@ -24,6 +24,14 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class PGResult PGResult.h ObjPgSQL/ObjPgSQL.h
+ *
+ * @brief A PostgreSQL result row.
+ *
+ * This is a regular OFDictionary, where each entry in the dictionary
+ * represents a column of the result row.
+ */
 @interface PGResultRow: OFDictionary OF_GENERIC(OFString *, id)
 {
 	PGResult *_result;

@@ -20,6 +20,12 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class PGConnectionFailedException PGConnectionFailedException.h
+ *	  PgSQL/PgSQL.h
+ *
+ * @brief An exception indicating that connecting to the database failed.
+ */
 @interface PGConnectionFailedException: PGException
 @end
 

@@ -22,10 +22,24 @@
 #import "PGResult+Private.h"
 
 #import "PGConnectionFailedException.h"
-#import "PGCommandFailedException.h"
+#import "PGExecuteCommandFailedException.h"
 
 @implementation PGConnection
 @synthesize pg_connection = _connection, parameters = _parameters;
+
+- (instancetype)init
+{
+	self = [super init];
+
+	@try {
+		_parameters = [[OFDictionary alloc] init];
+	} @catch (id e) {
+		[self release];
+		@throw e;
+	}
+
+	return self;
+}
 
 - (void)dealloc
 {
@@ -84,7 +98,7 @@
 
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
-		@throw [PGCommandFailedException
+		@throw [PGExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}
@@ -97,7 +111,7 @@
 		return nil;
 	default:
 		PQclear(result);
-		@throw [PGCommandFailedException
+		@throw [PGExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}
@@ -159,7 +173,7 @@
 		return nil;
 	default:
 		PQclear(result);
-		@throw [PGCommandFailedException
+		@throw [PGExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}

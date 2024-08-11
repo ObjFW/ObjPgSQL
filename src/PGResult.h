@@ -24,6 +24,14 @@ OF_ASSUME_NONNULL_BEGIN
 
 @class PGResultRow;
 
+/**
+ * @class PGResult PGResult.h ObjPgSQL/ObjPgSQL.h
+ *
+ * @brief A PostgreSQL result.
+ *
+ * This is a regular OFArray, where each entry in the array represents a result
+ * row.
+ */
 @interface PGResult: OFArray OF_GENERIC(PGResultRow *)
 {
 	PGresult *_result;

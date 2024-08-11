@@ -16,9 +16,9 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGCommandFailedException.h"
+#import "PGExecuteCommandFailedException.h"
 
-@implementation PGCommandFailedException
+@implementation PGExecuteCommandFailedException
 @synthesize command = _command;
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
@@ -27,7 +27,7 @@
 }
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
-				command: (OFString *)command
+				command: (OFConstantString *)command
 {
 	return [[[self alloc] initWithConnection: connection
 					 command: command] autorelease];
@@ -39,7 +39,7 @@
 }
 
 - (instancetype)initWithConnection: (PGConnection *)connection
-			   command: (OFString *)command
+			   command: (OFConstantString *)command
 {
 	self = [super initWithConnection: connection];
 
@@ -63,6 +63,7 @@
 - (OFString *)description
 {
 	return [OFString stringWithFormat: @"A PostgreSQL command failed: %@\n"
-					   @"Command: %@", _error, _command];
+					   @"Command: %@",
+					   _errorMessage, _command];
 }
 @end

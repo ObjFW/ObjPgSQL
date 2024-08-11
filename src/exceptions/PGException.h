@@ -22,15 +22,45 @@
 
 OF_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class PGException PGException.h ObjPgSQL/ObjPgSQL.h
+ *
+ * @brief A PostgreSQL exception.
+ */
 @interface PGException: OFException
 {
 	PGConnection *_connection;
-	OFString *_error;
+	OFString *_errorMessage;
 }
 
+/**
+ * @brief The connection for which the exception occurred.
+ */
 @property (readonly, nonatomic) PGConnection *connection;
 
+/**
+ * @brief An error message for the exception.
+ */
+@property (readonly, nonatomic) OFString *errorMessage;
+
++ (instancetype)exception OF_UNAVAILABLE;
+
+/**
+ * @brief Creates a new PostgreSQL exception.
+ *
+ * @param connection The connection for which the exception occurred
+ * @return A new, autoreleased PostgreSQL exception
+ */
 + (instancetype)exceptionWithConnection: (PGConnection *)connection;
+
+- (instancetype)init OF_UNAVAILABLE;
+
+/**
+ * @brief Initializes an already allocated PostgreSQL exception.
+ *
+ * @param connection The connection for which the exception occurred
+ * @return An initialized PostgreSQL exception
+ */
 - (instancetype)initWithConnection: (PGConnection *)connection
     OF_DESIGNATED_INITIALIZER;
 @end

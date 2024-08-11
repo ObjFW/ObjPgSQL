@@ -20,11 +20,21 @@
 #import "PGConnection+Private.h"
 
 @implementation PGException
-@synthesize connection = _connection;
+@synthesize connection = _connection, errorMessage = _errorMessage;
+
++ (instancetype)exception
+{
+	OF_UNRECOGNIZED_SELECTOR
+}
 
 + (instancetype)exceptionWithConnection: (PGConnection *)connection
 {
 	return [[[self alloc] initWithConnection: connection] autorelease];
+}
+
+- (instancetype)init
+{
+	OF_INVALID_INIT_METHOD
 }
 
 - (instancetype)initWithConnection: (PGConnection *)connection
@@ -33,7 +43,7 @@
 
 	@try {
 		_connection = [connection retain];
-		_error = [[OFString alloc]
+		_errorMessage = [[OFString alloc]
 		    initWithCString: PQerrorMessage([_connection pg_connection])
 			   encoding: [OFLocale encoding]];
 	} @catch (id e) {
@@ -47,7 +57,7 @@
 - (void)dealloc
 {
 	[_connection release];
-	[_error release];
+	[_errorMessage release];
 
 	[super dealloc];
 }
@@ -55,6 +65,6 @@
 - (OFString *)description
 {
 	return [OFString stringWithFormat: @"A PostgreSQL operation failed: %@",
-					   _error];
+					   _errorMessage];
 }
 @end
