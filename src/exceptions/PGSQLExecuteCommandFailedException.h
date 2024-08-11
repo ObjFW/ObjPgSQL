@@ -16,17 +16,18 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGException.h"
+#import "PGSQLException.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
 /**
- * @class PGExecuteCommandFailedException PGExecuteCommandFailedException.h
+ * @class PGSQLExecuteCommandFailedException
+ *	  PGSQLExecuteCommandFailedException.h
  *	  ObjPgSQL/ObjPgSQL.h
  *
  * @brief An exception indicating that executing a command failed.
  */
-@interface PGExecuteCommandFailedException: PGException
+@interface PGSQLExecuteCommandFailedException: PGSQLException
 {
 	OFConstantString *_command;
 }
@@ -36,7 +37,7 @@ OF_ASSUME_NONNULL_BEGIN
  */
 @property (readonly, nonatomic) OFConstantString *command;
 
-+ (instancetype)exceptionWithConnection: (PGConnection *)connection
++ (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
     OF_UNAVAILABLE;
 
 /**
@@ -46,10 +47,11 @@ OF_ASSUME_NONNULL_BEGIN
  * @param command The command which could not be executed
  * @return A new, autoreleased execute command failed exception
  */
-+ (instancetype)exceptionWithConnection: (PGConnection *)connection
++ (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
 				command: (OFConstantString *)command;
 
-- (instancetype)initWithConnection: (PGConnection *)connection OF_UNAVAILABLE;
+- (instancetype)initWithConnection: (PGSQLConnection *)connection
+    OF_UNAVAILABLE;
 
 /**
  * @brief Initializes an already allocated execte command failed exception.
@@ -58,7 +60,7 @@ OF_ASSUME_NONNULL_BEGIN
  * @param command The command which could not be executed
  * @return An initialized execute command failed exception
  */
-- (instancetype)initWithConnection: (PGConnection *)connection
+- (instancetype)initWithConnection: (PGSQLConnection *)connection
 			   command: (OFConstantString *)command
     OF_DESIGNATED_INITIALIZER;
 @end

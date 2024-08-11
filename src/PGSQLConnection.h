@@ -20,7 +20,7 @@
 
 #import <ObjFW/ObjFW.h>
 
-#import "PGResult.h"
+#import "PGSQLResult.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
@@ -29,14 +29,14 @@ OF_ASSUME_NONNULL_BEGIN
 /**
  * @brief A result row.
  */
-typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
+typedef OFDictionary OF_GENERIC(OFString *, id) *PGSQLRow;
 
 /**
- * @class PGConnection PGConnection.h ObjPgSQL/ObjPgSQL.h
+ * @class PGSQLConnection PGSQLConnection.h ObjPgSQL/ObjPgSQL.h
  *
  * @brief A connection to a database.
  */
-@interface PGConnection: OFObject
+@interface PGSQLConnection: OFObject
 {
 	PGconn *_connection;
 	OFDictionary OF_GENERIC(OFString *, OFString *) *_parameters;
@@ -52,7 +52,7 @@ typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
 /**
  * @brief Connects to the database.
  *
- * @throw PGConnectionFailedException The connection failed
+ * @throw PGSQLConnectionFailedException The connection failed
  */
 - (void)connect;
 
@@ -71,9 +71,9 @@ typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
  *
  * @param command The command to execute
  * @return The result of the command, if any
- * @throw PGCommandFailedException Executing the command failed.
+ * @throw PGSQLCommandFailedException Executing the command failed.
  */
-- (nullable PGResult *)executeCommand: (OFConstantString *)command;
+- (nullable PGSQLResult *)executeCommand: (OFConstantString *)command;
 
 /**
  * @brief Executes the specified command.
@@ -81,10 +81,10 @@ typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
  * @param command The command to execute
  * @param firstParameter First parameter for the command
  * @return The result of the command, if any
- * @throw PGCommandFailedException Executing the command failed.
+ * @throw PGSQLCommandFailedException Executing the command failed.
  */
-- (nullable PGResult *)executeCommand: (OFConstantString *)command
-			   parameters: (id)firstParameter, ... OF_SENTINEL;
+- (nullable PGSQLResult *)executeCommand: (OFConstantString *)command
+			      parameters: (id)firstParameter, ... OF_SENTINEL;
 @end
 
 OF_ASSUME_NONNULL_END

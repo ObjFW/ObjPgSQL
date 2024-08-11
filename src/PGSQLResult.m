@@ -16,55 +16,46 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGException.h"
-#import "PGConnection+Private.h"
+#import "PGSQLResult.h"
+#import "PGSQLResult+Private.h"
+#import "PGSQLResultRow.h"
+#import "PGSQLResultRow+Private.h"
 
-@implementation PGException
-@synthesize connection = _connection, errorMessage = _errorMessage;
+@implementation PGSQLResult
+@synthesize pg_result = _result;
 
-+ (instancetype)exception
++ (instancetype)pg_resultWithResult: (PGresult *)result
 {
-	OF_UNRECOGNIZED_SELECTOR
+	return [[[self alloc] pg_initWithResult: result] autorelease];
 }
 
-+ (instancetype)exceptionWithConnection: (PGConnection *)connection
-{
-	return [[[self alloc] initWithConnection: connection] autorelease];
-}
-
-- (instancetype)init
-{
-	OF_INVALID_INIT_METHOD
-}
-
-- (instancetype)initWithConnection: (PGConnection *)connection
+- (instancetype)pg_initWithResult: (PGresult *)result
 {
 	self = [super init];
 
-	@try {
-		_connection = [connection retain];
-		_errorMessage = [[OFString alloc]
-		    initWithCString: PQerrorMessage([_connection pg_connection])
-			   encoding: [OFLocale encoding]];
-	} @catch (id e) {
-		[self release];
-		@throw e;
-	}
+	_result = result;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[_connection release];
-	[_errorMessage release];
+	if (_result != NULL)
+		PQclear(_result);
 
 	[super dealloc];
 }
 
-- (OFString *)description
+- (size_t)count
 {
-	return [OFString stringWithFormat: @"A PostgreSQL operation failed: %@",
-					   _errorMessage];
+	return PQntuples(_result);
+}
+
+- (id)objectAtIndex: (size_t)index
+{
+	if (index > LONG_MAX || (long)index > PQntuples(_result))
+		@throw [OFOutOfRangeException exception];
+
+	return [PGSQLResultRow pg_rowWithResult: self row: (int)index];
 }
 @end

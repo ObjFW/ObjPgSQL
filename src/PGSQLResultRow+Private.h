@@ -16,15 +16,13 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGResult.h"
+#import "PGSQLResultRow.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface PGResult ()
-@property (readonly, nonatomic) PGresult *pg_result;
-
-+ (instancetype)pg_resultWithResult: (PGresult *)result;
-- (instancetype)pg_initWithResult: (PGresult *)result;
+@interface PGSQLResultRow ()
++ (instancetype)pg_rowWithResult: (PGSQLResult *)result row: (int)row;
+- (instancetype)pg_initWithResult: (PGSQLResult *)result row: (int)row;
 @end
 
 OF_ASSUME_NONNULL_END

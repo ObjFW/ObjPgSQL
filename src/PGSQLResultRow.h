@@ -16,13 +16,28 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGResultRow.h"
+#include <libpq-fe.h>
+
+#import <ObjFW/ObjFW.h>
+
+#import "PGSQLResult.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface PGResultRow ()
-+ (instancetype)pg_rowWithResult: (PGResult *)result row: (int)row;
-- (instancetype)pg_initWithResult: (PGResult *)result row: (int)row;
+/**
+ * @class PGSQLResult PGSQLResult.h ObjPgSQL/ObjPgSQL.h
+ *
+ * @brief A PostgreSQL result row.
+ *
+ * This is a regular OFDictionary, where each entry in the dictionary
+ * represents a column of the result row.
+ */
+@interface PGSQLResultRow: OFDictionary OF_GENERIC(OFString *, id)
+{
+	PGSQLResult *_result;
+	PGresult *_res;
+	int _row;
+}
 @end
 
 OF_ASSUME_NONNULL_END

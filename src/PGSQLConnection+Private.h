@@ -16,11 +16,11 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGConnection.h"
+#import "PGSQLConnection.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@interface PGConnection ()
+@interface PGSQLConnection ()
 @property (readonly, nonatomic) PGconn *pg_connection;
 @end
 

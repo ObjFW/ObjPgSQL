@@ -16,17 +16,26 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGException.h"
+#include <libpq-fe.h>
+
+#import <ObjFW/ObjFW.h>
 
 OF_ASSUME_NONNULL_BEGIN
 
+@class PGSQLResultRow;
+
 /**
- * @class PGConnectionFailedException PGConnectionFailedException.h
- *	  PgSQL/PgSQL.h
+ * @class PGSQLResult PGSQLResult.h ObjPgSQL/ObjPgSQL.h
  *
- * @brief An exception indicating that connecting to the database failed.
+ * @brief A PostgreSQL result.
+ *
+ * This is a regular OFArray, where each entry in the array represents a result
+ * row.
  */
-@interface PGConnectionFailedException: PGException
+@interface PGSQLResult: OFArray OF_GENERIC(PGSQLResultRow *)
+{
+	PGresult *_result;
+}
 @end
 
 OF_ASSUME_NONNULL_END

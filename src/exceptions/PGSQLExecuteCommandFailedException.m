@@ -16,29 +16,29 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGExecuteCommandFailedException.h"
+#import "PGSQLExecuteCommandFailedException.h"
 
-@implementation PGExecuteCommandFailedException
+@implementation PGSQLExecuteCommandFailedException
 @synthesize command = _command;
 
-+ (instancetype)exceptionWithConnection: (PGConnection *)connection
++ (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
 {
 	OF_UNRECOGNIZED_SELECTOR
 }
 
-+ (instancetype)exceptionWithConnection: (PGConnection *)connection
++ (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
 				command: (OFConstantString *)command
 {
 	return [[[self alloc] initWithConnection: connection
 					 command: command] autorelease];
 }
 
-- (instancetype)initWithConnection: (PGConnection *)connection
+- (instancetype)initWithConnection: (PGSQLConnection *)connection
 {
 	OF_INVALID_INIT_METHOD
 }
 
-- (instancetype)initWithConnection: (PGConnection *)connection
+- (instancetype)initWithConnection: (PGSQLConnection *)connection
 			   command: (OFConstantString *)command
 {
 	self = [super initWithConnection: connection];

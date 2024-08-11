@@ -16,28 +16,13 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <libpq-fe.h>
+#import "PGSQLConnectionFailedException.h"
 
-#import <ObjFW/ObjFW.h>
-
-#import "PGResult.h"
-
-OF_ASSUME_NONNULL_BEGIN
-
-/**
- * @class PGResult PGResult.h ObjPgSQL/ObjPgSQL.h
- *
- * @brief A PostgreSQL result row.
- *
- * This is a regular OFDictionary, where each entry in the dictionary
- * represents a column of the result row.
- */
-@interface PGResultRow: OFDictionary OF_GENERIC(OFString *, id)
+@implementation PGSQLConnectionFailedException
+- (OFString *)description
 {
-	PGResult *_result;
-	PGresult *_res;
-	int _row;
+	return [OFString stringWithFormat:
+	    @"Establishing a PostgreSQL connection failed:\n%@\n"
+	    "Parameters: %@", _errorMessage, [_connection parameters]];
 }
 @end
-
-OF_ASSUME_NONNULL_END

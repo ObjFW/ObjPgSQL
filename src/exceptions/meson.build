@@ -1,5 +1,5 @@
 exceptions_sources = files(
-  'PGConnectionFailedException.m',
-  'PGException.m',
-  'PGExecuteCommandFailedException.m',
+  'PGSQLConnectionFailedException.m',
+  'PGSQLException.m',
+  'PGSQLExecuteCommandFailedException.m',
 )

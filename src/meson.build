@@ -3,9 +3,9 @@ fs = import('fs')
 subdir('exceptions')
 
 sources = files(
-  'PGConnection.m',
-  'PGResult.m',
-  'PGResultRow.m',
+  'PGSQLConnection.m',
+  'PGSQLResult.m',
+  'PGSQLResultRow.m',
 )
 
 objpgsql = library('objpgsql',

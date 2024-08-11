@@ -16,10 +16,10 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGResult.h"
-#import "PGResultRow.h"
-#import "PGConnection.h"
+#import "PGSQLResult.h"
+#import "PGSQLResultRow.h"
+#import "PGSQLConnection.h"
 
-#import "PGException.h"
-#import "PGCommandFailedException.h"
-#import "PGConnectionFailedException.h"
+#import "PGSQLException.h"
+#import "PGSQLExecuteCommandFailedException.h"
+#import "PGSQLConnectionFailedException.h"

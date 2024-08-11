@@ -16,15 +16,15 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGConnection.h"
-#import "PGConnection+Private.h"
-#import "PGResult.h"
-#import "PGResult+Private.h"
+#import "PGSQLConnection.h"
+#import "PGSQLConnection+Private.h"
+#import "PGSQLResult.h"
+#import "PGSQLResult+Private.h"
 
-#import "PGConnectionFailedException.h"
-#import "PGExecuteCommandFailedException.h"
+#import "PGSQLConnectionFailedException.h"
+#import "PGSQLExecuteCommandFailedException.h"
 
-@implementation PGConnection
+@implementation PGSQLConnection
 @synthesize pg_connection = _connection, parameters = _parameters;
 
 - (instancetype)init
@@ -73,7 +73,7 @@
 		@throw [OFOutOfMemoryException exception];
 
 	if (PQstatus(_connection) == CONNECTION_BAD)
-		@throw [PGConnectionFailedException
+		@throw [PGSQLConnectionFailedException
 		    exceptionWithConnection: self];
 
 	objc_autoreleasePoolPop(pool);
@@ -92,33 +92,33 @@
 	_connection = NULL;
 }
 
-- (PGResult *)executeCommand: (OFConstantString *)command
+- (PGSQLResult *)executeCommand: (OFConstantString *)command
 {
 	PGresult *result = PQexec(_connection, command.UTF8String);
 
 	if (PQresultStatus(result) == PGRES_FATAL_ERROR) {
 		PQclear(result);
-		@throw [PGExecuteCommandFailedException
+		@throw [PGSQLExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}
 
 	switch (PQresultStatus(result)) {
 	case PGRES_TUPLES_OK:
-		return [PGResult pg_resultWithResult: result];
+		return [PGSQLResult pg_resultWithResult: result];
 	case PGRES_COMMAND_OK:
 		PQclear(result);
 		return nil;
 	default:
 		PQclear(result);
-		@throw [PGExecuteCommandFailedException
+		@throw [PGSQLExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}
 }
 
-- (PGResult *)executeCommand: (OFConstantString *)command
-		  parameters: (id)parameter, ...
+- (PGSQLResult *)executeCommand: (OFConstantString *)command
+		     parameters: (id)parameter, ...
 {
 	void *pool = objc_autoreleasePoolPush();
 	PGresult *result;
@@ -167,13 +167,13 @@
 
 	switch (PQresultStatus(result)) {
 	case PGRES_TUPLES_OK:
-		return [PGResult pg_resultWithResult: result];
+		return [PGSQLResult pg_resultWithResult: result];
 	case PGRES_COMMAND_OK:
 		PQclear(result);
 		return nil;
 	default:
 		PQclear(result);
-		@throw [PGExecuteCommandFailedException
+		@throw [PGSQLExecuteCommandFailedException
 		    exceptionWithConnection: self
 				    command: command];
 	}

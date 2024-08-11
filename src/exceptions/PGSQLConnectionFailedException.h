@@ -16,13 +16,17 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGConnectionFailedException.h"
+#import "PGSQLException.h"
 
-@implementation PGConnectionFailedException
-- (OFString *)description
-{
-	return [OFString stringWithFormat:
-	    @"Establishing a PostgreSQL connection failed:\n%@\n"
-	    "Parameters: %@", _errorMessage, [_connection parameters]];
-}
+OF_ASSUME_NONNULL_BEGIN
+
+/**
+ * @class PGSQLConnectionFailedException PGSQLConnectionFailedException.h
+ *	  PgSQL/PgSQL.h
+ *
+ * @brief An exception indicating that connecting to the database failed.
+ */
+@interface PGSQLConnectionFailedException: PGSQLException
 @end
+
+OF_ASSUME_NONNULL_END

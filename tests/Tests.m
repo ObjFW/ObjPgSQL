@@ -18,12 +18,11 @@
 
 #import <ObjFW/ObjFW.h>
 
-#import "PGConnection.h"
-#import "PGConnectionFailedException.h"
+#import "ObjPgSQL.h"
 
 @interface Test: OFObject <OFApplicationDelegate>
 {
-	PGConnection *_connection;
+	PGSQLConnection *_connection;
 }
 @end
 
@@ -34,9 +33,9 @@ OF_APPLICATION_DELEGATE(Test)
 {
 	OFString *username =
 	    [[OFApplication environment] objectForKey: @"USER"];
-	PGResult *result;
+	PGSQLResult *result;
 
-	_connection = [[PGConnection alloc] init];
+	_connection = [[PGSQLConnection alloc] init];
 	[_connection setParameters:
 	    [OFDictionary dictionaryWithKeysAndObjects: @"user", username,
 							@"dbname", username,

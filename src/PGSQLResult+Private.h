@@ -16,26 +16,15 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <libpq-fe.h>
-
-#import <ObjFW/ObjFW.h>
+#import "PGSQLResult.h"
 
 OF_ASSUME_NONNULL_BEGIN
 
-@class PGResultRow;
+@interface PGSQLResult ()
+@property (readonly, nonatomic) PGresult *pg_result;
 
-/**
- * @class PGResult PGResult.h ObjPgSQL/ObjPgSQL.h
- *
- * @brief A PostgreSQL result.
- *
- * This is a regular OFArray, where each entry in the array represents a result
- * row.
- */
-@interface PGResult: OFArray OF_GENERIC(PGResultRow *)
-{
-	PGresult *_result;
-}
++ (instancetype)pg_resultWithResult: (PGresult *)result;
+- (instancetype)pg_initWithResult: (PGresult *)result;
 @end
 
 OF_ASSUME_NONNULL_END

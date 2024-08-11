@@ -16,8 +16,8 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#import "PGResultRow.h"
-#import "PGResult+Private.h"
+#import "PGSQLResultRow.h"
+#import "PGSQLResult+Private.h"
 
 static id
 convertType(PGresult *res, int column, OFString *string)
@@ -46,29 +46,29 @@ convertType(PGresult *res, int column, OFString *string)
 	return string;
 }
 
-@interface PGResultRowEnumerator: OFEnumerator
+@interface PGSQLResultRowEnumerator: OFEnumerator
 {
-	PGResult *_result;
+	PGSQLResult *_result;
 	PGresult *_res;
 	int _row, _pos, _count;
 }
 
-- (instancetype)initWithResult: (PGResult*)result row: (int)row;
+- (instancetype)initWithResult: (PGSQLResult*)result row: (int)row;
 @end
 
-@interface PGResultRowKeyEnumerator: PGResultRowEnumerator
+@interface PGSQLResultRowKeyEnumerator: PGSQLResultRowEnumerator
 @end
 
-@interface PGResultRowObjectEnumerator: PGResultRowEnumerator
+@interface PGSQLResultRowObjectEnumerator: PGSQLResultRowEnumerator
 @end
 
-@implementation PGResultRow
-+ (instancetype)pg_rowWithResult: (PGResult *)result row: (int)row
+@implementation PGSQLResultRow
++ (instancetype)pg_rowWithResult: (PGSQLResult *)result row: (int)row
 {
 	return [[[self alloc] pg_initWithResult: result row: row] autorelease];
 }
 
-- (instancetype)pg_initWithResult: (PGResult *)result row: (int)row
+- (instancetype)pg_initWithResult: (PGSQLResult *)result row: (int)row
 {
 	self = [super init];
 
@@ -115,14 +115,14 @@ convertType(PGresult *res, int column, OFString *string)
 
 - (OFEnumerator *)keyEnumerator
 {
-	return [[[PGResultRowKeyEnumerator alloc]
+	return [[[PGSQLResultRowKeyEnumerator alloc]
 	    initWithResult: _result
 		       row: _row] autorelease];
 }
 
 - (OFEnumerator *)objectEnumerator
 {
-	return [[[PGResultRowObjectEnumerator alloc]
+	return [[[PGSQLResultRowObjectEnumerator alloc]
 	    initWithResult: _result
 		       row: _row] autorelease];
 }
@@ -160,8 +160,8 @@ convertType(PGresult *res, int column, OFString *string)
 }
 @end
 
-@implementation PGResultRowEnumerator
-- (instancetype)initWithResult: (PGResult *)result row: (int)row
+@implementation PGSQLResultRowEnumerator
+- (instancetype)initWithResult: (PGSQLResult *)result row: (int)row
 {
 	self = [super init];
 
@@ -186,7 +186,7 @@ convertType(PGresult *res, int column, OFString *string)
 }
 @end
 
-@implementation PGResultRowKeyEnumerator
+@implementation PGSQLResultRowKeyEnumerator
 - (id)nextObject
 {
 	if (_pos >= _count)
@@ -202,7 +202,7 @@ convertType(PGresult *res, int column, OFString *string)
 }
 @end
 
-@implementation PGResultRowObjectEnumerator
+@implementation PGSQLResultRowObjectEnumerator
 - (id)nextObject
 {
 	id object;
