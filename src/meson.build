@@ -12,7 +12,7 @@ objpgsql = library('objpgsql',
   sources + exceptions_sources,
   include_directories: incdir,
   dependencies: [objfw_dep, libpq_dep],
-  soversion: '0.0',
+  soversion: '1.0.0',
   install: true)
 
 headers = ['ObjPgSQL.h']
