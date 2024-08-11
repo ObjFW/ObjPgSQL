@@ -41,9 +41,6 @@ typedef OFDictionary OF_GENERIC(OFString *, id) *PGRow;
 - (nullable PGResult *)executeCommand: (OFConstantString *)command;
 - (nullable PGResult *)executeCommand: (OFConstantString *)command
 			   parameters: (id)firstParameter, ... OF_SENTINEL;
-- (void)insertRow: (PGRow)row intoTable: (OFString *)table;
-- (void)insertRows: (OFArray OF_GENERIC(PGRow) *)rows
-	 intoTable: (OFString *)table;
 @end
 
 OF_ASSUME_NONNULL_END

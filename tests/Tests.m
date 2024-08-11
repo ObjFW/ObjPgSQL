@@ -59,9 +59,6 @@ OF_APPLICATION_DELEGATE(Test)
 			 parameters: [OFNumber numberWithInt: 2],
 				     [OFNumber numberWithInt: 2],
 				     [OFNumber numberWithBool: true], nil];
-	[_connection insertRow: [OFDictionary dictionaryWithKeysAndObjects:
-				    @"content", @"Hallo!", @"name", @"foo", nil]
-		     intoTable: @"test"];
 
 	result = [_connection executeCommand: @"SELECT * FROM test"];
 	OFLog(@"%@", result);
