@@ -1,5 +1,5 @@
 package_format 1
-CPPFLAGS="$CPPFLAGS @LIBPQ_CPPFLAGS@"
+CPPFLAGS="$CPPFLAGS -I@includedir@ @LIBPQ_CPPFLAGS@"
 LIBS="-L@libdir@ -lobjpgsql @LIBPQ_LIBS@ $LIBS"
 FRAMEWORK_LIBS="-L@libdir@ -lobjpgsql @LIBPQ_LIBS@ $FRAMEWORK_LIBS"
 STATIC_LIBS="@libdir@/libobjpgsql.a @LIBPQ_LIBS@ $STATIC_LIBS"

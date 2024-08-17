@@ -31,6 +31,7 @@ configure_file(
   input: 'ObjPgSQL.oc.in',
   output: 'ObjPgSQL.oc',
   configuration: {
+    'includedir': get_option('prefix') / get_option('includedir'),
     'libdir': get_option('prefix') / get_option('libdir'),
     'LIBPQ_CPPFLAGS': libpq_cflags,
     'LIBPQ_LIBS': libpq_libs,
