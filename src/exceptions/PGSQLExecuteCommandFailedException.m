@@ -29,8 +29,9 @@
 + (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
 				command: (OFConstantString *)command
 {
-	return [[[self alloc] initWithConnection: connection
-					 command: command] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithConnection: connection
+				     command: command]);
 }
 
 - (instancetype)initWithConnection: (PGSQLConnection *)connection
@@ -46,7 +47,7 @@
 	@try {
 		_command = [command copy];
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -55,7 +56,7 @@
 
 - (void)dealloc
 {
-	[_command release];
+	objc_release(_command);
 
 	[super dealloc];
 }

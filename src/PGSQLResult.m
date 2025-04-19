@@ -26,7 +26,8 @@
 
 + (instancetype)pg_resultWithResult: (PGresult *)result
 {
-	return [[[self alloc] pg_initWithResult: result] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] pg_initWithResult: result]);
 }
 
 - (instancetype)pg_initWithResult: (PGresult *)result

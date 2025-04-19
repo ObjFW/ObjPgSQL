@@ -65,23 +65,29 @@ convertType(PGresult *res, int column, OFString *string)
 @implementation PGSQLResultRow
 + (instancetype)pg_rowWithResult: (PGSQLResult *)result row: (int)row
 {
-	return [[[self alloc] pg_initWithResult: result row: row] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] pg_initWithResult: result row: row]);
 }
 
 - (instancetype)pg_initWithResult: (PGSQLResult *)result row: (int)row
 {
 	self = [super init];
 
-	_result = [result retain];
-	_res = result.pg_result;
-	_row = row;
+	@try {
+		_result = objc_retain(result);
+		_res = result.pg_result;
+		_row = row;
+	} @catch (id e) {
+		objc_release(self);
+		@throw e;
+	}
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[_result release];
+	objc_release(_result);
 
 	[super dealloc];
 }
@@ -115,16 +121,16 @@ convertType(PGresult *res, int column, OFString *string)
 
 - (OFEnumerator *)keyEnumerator
 {
-	return [[[PGSQLResultRowKeyEnumerator alloc]
-	    initWithResult: _result
-		       row: _row] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[PGSQLResultRowKeyEnumerator alloc] initWithResult: _result
+							    row: _row]);
 }
 
 - (OFEnumerator *)objectEnumerator
 {
-	return [[[PGSQLResultRowObjectEnumerator alloc]
-	    initWithResult: _result
-		       row: _row] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[PGSQLResultRowObjectEnumerator alloc] initWithResult: _result
+							       row: _row]);
 }
 
 - (int)countByEnumeratingWithState: (OFFastEnumerationState *)state
@@ -165,17 +171,22 @@ convertType(PGresult *res, int column, OFString *string)
 {
 	self = [super init];
 
-	_result = [result retain];
-	_res = result.pg_result;
-	_row = row;
-	_count = PQnfields(_res);
+	@try {
+		_result = objc_retain(result);
+		_res = result.pg_result;
+		_row = row;
+		_count = PQnfields(_res);
+	} @catch (id e) {
+		objc_release(self);
+		@throw e;
+	}
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[_result release];
+	objc_release(_result);
 
 	[super dealloc];
 }

@@ -29,7 +29,8 @@
 
 + (instancetype)exceptionWithConnection: (PGSQLConnection *)connection
 {
-	return [[[self alloc] initWithConnection: connection] autorelease];
+	return objc_autoreleaseReturnValue(
+	    [[self alloc] initWithConnection: connection]);
 }
 
 - (instancetype)init
@@ -42,12 +43,12 @@
 	self = [super init];
 
 	@try {
-		_connection = [connection retain];
+		_connection = objc_retain(connection);
 		_errorMessage = [[OFString alloc]
 		    initWithCString: PQerrorMessage([_connection pg_connection])
 			   encoding: [OFLocale encoding]];
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -56,8 +57,8 @@
 
 - (void)dealloc
 {
-	[_connection release];
-	[_errorMessage release];
+	objc_release(_connection);
+	objc_release(_errorMessage);
 
 	[super dealloc];
 }

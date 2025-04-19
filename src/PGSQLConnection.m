@@ -34,7 +34,7 @@
 	@try {
 		_parameters = [[OFDictionary alloc] init];
 	} @catch (id e) {
-		[self release];
+		objc_release(self);
 		@throw e;
 	}
 
@@ -43,7 +43,7 @@
 
 - (void)dealloc
 {
-	[_parameters release];
+	objc_release(_parameters);
 
 	[self close];
 
